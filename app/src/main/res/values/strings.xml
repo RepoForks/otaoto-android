@@ -1,0 +1,24 @@
+<resources>
+    <string name="app_name">One Time and One Time Only</string>
+    <string name="secret_input_hint">Message</string>
+    <string name="secret_submit">Submit</string>
+
+    <string name="url" translatable="false">otaoto.herokuapp.com</string>
+
+    <string name="confirm_created">You created a secret!</string>
+    <string name="confirm_description1">
+        Your secret is available at the link below. Send it to your recipient or hold onto it for later.
+    </string>
+    <string name="confirm_description2">
+        Remember, visiting that link once will make it disappear!
+    </string>
+    <string name="confirm_double_check">
+        Want to double check? You can see your secret one more time if you need to.
+    </string>
+    <string name="confirm_show_button">Show Secret</string>
+    <string name="confirm_hide_button">Hide Secret</string>
+    <string name="view_title">Your Secret</string>
+    <string name="view_create_prompt">Have something you want to share?</string>
+    <string name="view_create_button">Share your secret</string>
+    <string name="link_clipboard_label">Otaoto secret link</string>
+</resources>
