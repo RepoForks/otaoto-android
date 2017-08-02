@@ -37,10 +37,6 @@ public class ConfirmActivity extends AppCompatActivity {
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     @OnClick(R.id.confirm_link_text)
     void onLinkClick() {
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.HONEYCOMB) {
-            return;
-        }
-
         ClipboardManager clipboardManager = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
         clipboardManager.setPrimaryClip(ClipData.newPlainText(getString(R.string.link_clipboard_label),
                                                               linkTextView.getText().toString()));

@@ -23,7 +23,7 @@ public class MainActivity extends AppCompatActivity {
         secretInputLayout.post(new Runnable() {
             @Override
             public void run() {
-                secretInputLayout.findViewById(R.id.text_input_password_toggle).performClick();
+                secretInputLayout.findViewById(R.id.text_input_password_toggle).callOnClick();
             }
         });
     }
