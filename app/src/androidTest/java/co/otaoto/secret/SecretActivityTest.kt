@@ -8,10 +8,13 @@ import android.support.test.espresso.matcher.ViewMatchers.*
 import android.support.test.rule.ActivityTestRule
 import android.support.test.runner.AndroidJUnit4
 import co.otaoto.R
+import co.otaoto.api.MockApi
+import co.otaoto.injector.Injector
 import co.otaoto.util.OrientationAction.Companion.landscapeRotation
 import co.otaoto.util.OrientationAction.Companion.portraitRotation
 import co.otaoto.util.isTextInputLayoutPasswordToggle
 import co.otaoto.util.withTextInputLayoutHint
+import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -29,6 +32,11 @@ class SecretActivityTest {
     @Rule
     @JvmField
     val instantTaskExecutorRule = InstantTaskExecutorRule()
+
+    @Before
+    fun setUp() {
+        Injector.api = MockApi()
+    }
 
     @Test
     fun smokeTest() {
