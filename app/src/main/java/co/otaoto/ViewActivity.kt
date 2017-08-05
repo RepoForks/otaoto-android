@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity
 
 import butterknife.ButterKnife
 import butterknife.OnClick
+import co.otaoto.secret.SecretActivity
 
 class ViewActivity : AppCompatActivity() {
 
@@ -17,7 +18,7 @@ class ViewActivity : AppCompatActivity() {
 
     @OnClick(R.id.view_create_button)
     internal fun onCreateClick() {
-        startActivity(Intent(this, MainActivity::class.java))
+        startActivity(Intent(this, SecretActivity::class.java))
         finish()
     }
 }

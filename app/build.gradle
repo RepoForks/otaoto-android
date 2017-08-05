@@ -21,8 +21,10 @@ android {
 }
 
 ext {
-    butterknifeVersion = "8.5.1"
-    retrofitVersion = "2.0.1"
+    archVersion = "1.0.0-alpha8"
+    butterknifeVersion = "8.8.0"
+    espressoVersion = "3.0.0"
+    retrofitVersion = "2.3.0"
     supportVersion = "26.0.0"
 }
 
@@ -39,8 +41,14 @@ dependencies {
     implementation 'com.squareup.moshi:moshi:1.5.0'
     implementation "com.jakewharton:butterknife:$butterknifeVersion"
     kapt "com.jakewharton:butterknife-compiler:$butterknifeVersion"
-    androidTestImplementation("com.android.support.test.espresso:espresso-core:2.2.2", {
-        exclude group: "com.android.support", module: "support-annotations"
-    })
+    implementation "android.arch.lifecycle:runtime:$archVersion"
+    implementation "android.arch.lifecycle:extensions:$archVersion"
+    kapt "android.arch.lifecycle:compiler:$archVersion"
+    testImplementation 'org.mockito:mockito-core:2.8.47'
+    testImplementation "android.arch.core:core-testing:$archVersion"
+    androidTestCompile "com.android.support.test.espresso:espresso-core:$espressoVersion"
+    androidTestCompile "com.android.support.test.espresso:espresso-contrib:$espressoVersion"
+    androidTestCompile "com.android.support.test:runner:1.0.0"
+    androidTestImplementation "android.arch.core:core-testing:$archVersion"
     testImplementation "junit:junit:4.12"
 }
