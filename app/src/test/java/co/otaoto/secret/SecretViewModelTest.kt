@@ -8,8 +8,7 @@ import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.mockito.Mock
-import org.mockito.Mockito.times
-import org.mockito.Mockito.verify
+import org.mockito.Mockito.*
 import org.mockito.MockitoAnnotations
 
 class SecretViewModelTest {
@@ -42,7 +41,7 @@ class SecretViewModelTest {
     fun submit_moveToConfirm_ifSuccess() = runBlocking {
         model.submit(view, "secret")
 
-        verify(view).moveToConfirmScreen()
+        verify(view).moveToConfirmScreen(anyString(), anyString(), anyString())
     }
 
     @Test

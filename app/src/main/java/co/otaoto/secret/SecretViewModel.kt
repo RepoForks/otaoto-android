@@ -7,7 +7,7 @@ import co.otaoto.injector.API
 
 class SecretViewModel : ViewModel() {
     internal interface View {
-        fun moveToConfirmScreen()
+        fun moveToConfirmScreen(secret: String, slug: String, key: String)
         fun showError()
         fun performPasswordVisibleHack()
     }
@@ -23,7 +23,7 @@ class SecretViewModel : ViewModel() {
     internal suspend fun submit(view: View, secret: String) {
         val result = API.create(secret)
         when (result) {
-            is CreateSuccess -> view.moveToConfirmScreen()
+            is CreateSuccess -> view.moveToConfirmScreen(secret, result.slug, result.key)
             is CreateError -> view.showError()
         }
     }

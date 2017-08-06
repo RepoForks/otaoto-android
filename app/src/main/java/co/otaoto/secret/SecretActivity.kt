@@ -1,6 +1,7 @@
 package co.otaoto.secret
 
 import android.arch.lifecycle.LifecycleActivity
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.support.design.widget.TextInputLayout
@@ -9,14 +10,18 @@ import android.widget.TextView
 import android.widget.Toast
 import butterknife.ButterKnife
 import butterknife.OnClick
-import co.otaoto.ConfirmActivity
 import co.otaoto.R
 import co.otaoto.bindView
 import co.otaoto.bindViewModel
+import co.otaoto.confirm.ConfirmActivity
 import kotlinx.coroutines.experimental.android.UI
 import kotlinx.coroutines.experimental.async
 
 class SecretActivity : LifecycleActivity(), SecretViewModel.View {
+    companion object {
+        fun newIntent(context: Context) = Intent(context, SecretActivity::class.java)
+    }
+
     private val viewModel by bindViewModel(SecretViewModel::class.java)
 
     private val inputLayout: TextInputLayout by bindView(R.id.secret_input_layout)
@@ -29,8 +34,8 @@ class SecretActivity : LifecycleActivity(), SecretViewModel.View {
         viewModel.init(this)
     }
 
-    override fun moveToConfirmScreen() {
-        startActivity(Intent(this, ConfirmActivity::class.java))
+    override fun moveToConfirmScreen(secret: String, slug: String, key: String) {
+        startActivity(ConfirmActivity.newIntent(this, secret, slug, key))
         finish()
     }
 

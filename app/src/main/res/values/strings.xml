@@ -22,4 +22,5 @@
     <string name="view_create_button">Share your secret</string>
     <string name="link_clipboard_label">Otaoto secret link</string>
     <string name="generic_error">An error occurred!</string>
+    <string name="confirm_create_another">Create another</string>
 </resources>
