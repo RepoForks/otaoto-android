@@ -7,7 +7,7 @@ import retrofit2.converter.moshi.MoshiConverterFactory
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.POST
-import retrofit2.http.Query
+import retrofit2.http.Path
 import ru.gildor.coroutines.retrofit.await
 
 class WebApi : Api {
@@ -54,7 +54,7 @@ private interface OtaotoApi {
     fun create(@Body body: CreateRequest): Call<CreateResponse>
 
     @GET("show/{slug}/{key}")
-    fun show(@Query("slug") slug: String, @Query("key") key: String): Call<ShowResponse>
+    fun show(@Path("slug") slug: String, @Path("key") key: String): Call<ShowResponse>
 }
 
 private data class CreateRequest(val secret: Secret) {

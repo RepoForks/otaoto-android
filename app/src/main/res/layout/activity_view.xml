@@ -3,7 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/activity_view"
+    android:id="@+id/activity_show"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:clipToPadding="false"
@@ -11,42 +11,55 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="co.otaoto.ui.view.ViewActivity"
+    tools:context="co.otaoto.ui.show.ShowActivity"
     >
 
-    <TextView
-        android:id="@+id/view_secret_text"
+    <Button
+        android:id="@+id/show_reveal_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:gravity="center_horizontal"
-        android:text="Ssh! Don't tell anyone!"
-        android:textAlignment="center"
+        android:text="@string/show_reveal"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         />
 
     <TextView
-        android:id="@+id/view_create_prompt_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:gravity="center_horizontal"
-        android:text="@string/view_create_prompt"
-        android:textAlignment="center"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/view_secret_text"
-        />
-
-    <Button
-        android:id="@+id/view_create_button"
+        android:id="@+id/show_secret_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:text="@string/view_create_button"
+        android:gravity="center_horizontal"
+        android:textAlignment="center"
+        android:visibility="gone"
+        android:textIsSelectable="true"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/view_create_prompt_text"
+        app:layout_constraintTop_toBottomOf="@id/show_reveal_button"
+        tools:text="Ssh! Don't tell anyone!"
+        tools:visibility="visible"
+        />
+
+    <TextView
+        android:id="@+id/show_create_prompt_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:gravity="center_horizontal"
+        android:text="@string/show_create_prompt"
+        android:textAlignment="center"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/show_create_button"
+        />
+
+    <Button
+        android:id="@+id/show_create_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/show_create_button"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
         />
 </android.support.constraint.ConstraintLayout>

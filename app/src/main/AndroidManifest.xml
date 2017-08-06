@@ -29,9 +29,9 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ui.view.ViewActivity"
+            android:name=".ui.show.ShowActivity"
             android:autoRemoveFromRecents="true"
-            android:label="@string/view_title"
+            android:label="@string/show_title"
             android:persistableMode="persistNever"
             >
             <intent-filter>
@@ -42,6 +42,10 @@
 
                 <data
                     android:host="@string/url"
+                    android:scheme="https"
+                    />
+                <data
+                    android:host="@string/url_heroku"
                     android:scheme="https"
                     />
             </intent-filter>

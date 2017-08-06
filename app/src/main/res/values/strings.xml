@@ -3,7 +3,8 @@
     <string name="secret_input_hint">Message</string>
     <string name="secret_submit">Submit</string>
 
-    <string name="url" translatable="false">otaoto.herokuapp.com</string>
+    <string name="url_heroku" translatable="false">otaoto.herokuapp.com</string>
+    <string name="url" translatable="false">otaoto.co</string>
 
     <string name="confirm_created">You created a secret!</string>
     <string name="confirm_description1">
@@ -17,10 +18,12 @@
     </string>
     <string name="confirm_show_button">Show Secret</string>
     <string name="confirm_hide_button">Hide Secret</string>
-    <string name="view_title">Your Secret</string>
-    <string name="view_create_prompt">Have something you want to share?</string>
-    <string name="view_create_button">Share your secret</string>
+    <string name="show_title">Your Secret</string>
+    <string name="show_create_prompt">Have something you want to share?</string>
+    <string name="show_create_button">Share your secret</string>
     <string name="link_clipboard_label">Otaoto secret link</string>
     <string name="generic_error">An error occurred!</string>
     <string name="confirm_create_another">Create another</string>
+    <string name="show_reveal">Show my secret</string>
+    <string name="show_gone">This secret is gone or perhaps never existed!</string>
 </resources>
