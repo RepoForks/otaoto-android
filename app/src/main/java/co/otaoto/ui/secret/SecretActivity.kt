@@ -1,4 +1,4 @@
-package co.otaoto.secret
+package co.otaoto.ui.secret
 
 import android.arch.lifecycle.LifecycleActivity
 import android.content.Context
@@ -11,9 +11,9 @@ import android.widget.Toast
 import butterknife.ButterKnife
 import butterknife.OnClick
 import co.otaoto.R
-import co.otaoto.bindView
-import co.otaoto.bindViewModel
-import co.otaoto.confirm.ConfirmActivity
+import co.otaoto.ui.bindView
+import co.otaoto.ui.bindViewModel
+import co.otaoto.ui.confirm.ConfirmActivity
 import kotlinx.coroutines.experimental.android.UI
 import kotlinx.coroutines.experimental.async
 

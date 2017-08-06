@@ -1,4 +1,4 @@
-package co.otaoto
+package co.otaoto.ui.view
 
 import android.content.Intent
 import android.os.Bundle
@@ -6,7 +6,8 @@ import android.support.v7.app.AppCompatActivity
 
 import butterknife.ButterKnife
 import butterknife.OnClick
-import co.otaoto.secret.SecretActivity
+import co.otaoto.R
+import co.otaoto.ui.secret.SecretActivity
 
 class ViewActivity : AppCompatActivity() {
 

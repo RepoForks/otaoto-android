@@ -1,4 +1,4 @@
-package co.otaoto.confirm
+package co.otaoto.ui.confirm
 
 import android.arch.lifecycle.ViewModel
 

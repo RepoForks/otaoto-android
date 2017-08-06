@@ -1,4 +1,4 @@
-package co.otaoto.secret
+package co.otaoto.ui.secret
 
 import android.arch.core.executor.testing.InstantTaskExecutorRule
 import co.otaoto.api.MockApi

@@ -1,4 +1,4 @@
-package co.otaoto
+package co.otaoto.ui
 
 import android.app.Activity
 import android.app.Dialog

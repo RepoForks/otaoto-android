@@ -17,7 +17,7 @@
         tools:ignore="UnusedAttribute"
         >
         <activity
-            android:name=".secret.SecretActivity"
+            android:name="co.otaoto.ui.secret.SecretActivity"
             android:autoRemoveFromRecents="true"
             android:persistableMode="persistNever"
             android:windowSoftInputMode="stateUnchanged|adjustResize"
@@ -29,7 +29,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ViewActivity"
+            android:name=".ui.view.ViewActivity"
             android:autoRemoveFromRecents="true"
             android:label="@string/view_title"
             android:persistableMode="persistNever"
@@ -47,7 +47,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".confirm.ConfirmActivity"
+            android:name="co.otaoto.ui.confirm.ConfirmActivity"
             android:autoRemoveFromRecents="true"
             android:persistableMode="persistNever"
             />

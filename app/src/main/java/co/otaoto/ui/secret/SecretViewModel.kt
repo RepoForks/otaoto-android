@@ -1,4 +1,4 @@
-package co.otaoto.secret
+package co.otaoto.ui.secret
 
 import android.arch.lifecycle.ViewModel
 import co.otaoto.api.CreateError

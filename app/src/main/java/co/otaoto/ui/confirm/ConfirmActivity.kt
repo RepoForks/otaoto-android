@@ -1,4 +1,4 @@
-package co.otaoto.confirm
+package co.otaoto.ui.confirm
 
 import android.arch.lifecycle.LifecycleActivity
 import android.content.ClipData
@@ -14,9 +14,9 @@ import butterknife.ButterKnife
 import butterknife.OnCheckedChanged
 import butterknife.OnClick
 import co.otaoto.R
-import co.otaoto.bindView
-import co.otaoto.bindViewModel
-import co.otaoto.secret.SecretActivity
+import co.otaoto.ui.bindView
+import co.otaoto.ui.bindViewModel
+import co.otaoto.ui.secret.SecretActivity
 
 class ConfirmActivity : LifecycleActivity(), ConfirmViewModel.View {
     companion object {
