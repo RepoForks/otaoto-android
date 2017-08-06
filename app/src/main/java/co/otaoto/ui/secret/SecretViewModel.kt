@@ -22,7 +22,7 @@ class SecretViewModel : ViewModel() {
 
     internal suspend fun submit(view: View, secret: String) {
         val result = API.create(secret)
-        when (result) {
+        return when (result) {
             is CreateSuccess -> view.moveToConfirmScreen(secret, result.slug, result.key)
             is CreateError -> view.showError()
         }

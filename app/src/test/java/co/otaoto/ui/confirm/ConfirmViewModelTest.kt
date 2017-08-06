@@ -1,8 +1,6 @@
 package co.otaoto.ui.confirm
 
-import android.arch.core.executor.testing.InstantTaskExecutorRule
 import org.junit.Before
-import org.junit.Rule
 import org.junit.Test
 import org.mockito.Mock
 import org.mockito.Mockito.verify
@@ -20,10 +18,6 @@ class ConfirmViewModelTest {
 
     @Mock
     private lateinit var view: ConfirmViewModel.View
-
-    @Rule
-    @JvmField
-    val rule = InstantTaskExecutorRule()
 
     @Before
     fun setUp() {

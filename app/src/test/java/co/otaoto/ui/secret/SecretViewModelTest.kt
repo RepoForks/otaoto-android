@@ -1,11 +1,9 @@
 package co.otaoto.ui.secret
 
-import android.arch.core.executor.testing.InstantTaskExecutorRule
 import co.otaoto.api.MockApi
 import co.otaoto.injector.Injector
 import kotlinx.coroutines.experimental.runBlocking
 import org.junit.Before
-import org.junit.Rule
 import org.junit.Test
 import org.mockito.Mock
 import org.mockito.Mockito.*
@@ -16,10 +14,6 @@ class SecretViewModelTest {
 
     @Mock
     private lateinit var view: SecretViewModel.View
-
-    @Rule
-    @JvmField
-    val rule = InstantTaskExecutorRule()
 
     @Before
     fun setUp() {
@@ -39,14 +33,14 @@ class SecretViewModelTest {
 
     @Test
     fun submit_moveToConfirm_ifSuccess() = runBlocking {
-        model.submit(view, "secret")
+        model.submit(view, MockApi.SECRET)
 
         verify(view).moveToConfirmScreen(anyString(), anyString(), anyString())
     }
 
     @Test
     fun submit_showError_ifFailure() = runBlocking {
-        model.submit(view, "error")
+        model.submit(view, MockApi.ERROR)
 
         verify(view).showError()
     }

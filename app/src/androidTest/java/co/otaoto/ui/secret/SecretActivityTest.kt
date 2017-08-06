@@ -1,6 +1,5 @@
 package co.otaoto.ui.secret
 
-import android.arch.core.executor.testing.InstantTaskExecutorRule
 import android.support.test.espresso.Espresso.onView
 import android.support.test.espresso.action.ViewActions.*
 import android.support.test.espresso.assertion.ViewAssertions.matches
@@ -28,10 +27,6 @@ class SecretActivityTest {
     @Rule
     @JvmField
     val activityTestRule = ActivityTestRule(SecretActivity::class.java)
-
-    @Rule
-    @JvmField
-    val instantTaskExecutorRule = InstantTaskExecutorRule()
 
     @Before
     fun setUp() {

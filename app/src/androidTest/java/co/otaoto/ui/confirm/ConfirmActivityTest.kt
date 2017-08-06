@@ -1,6 +1,5 @@
 package co.otaoto.ui.confirm
 
-import android.arch.core.executor.testing.InstantTaskExecutorRule
 import android.content.ClipboardManager
 import android.content.Context
 import android.content.Intent
@@ -37,10 +36,6 @@ class ConfirmActivityTest {
         }
     }
 
-    @Rule
-    @JvmField
-    val instantTaskExecutorRule = InstantTaskExecutorRule()
-
     @Test
     fun smokeTest() {
         val linkText = onView(hasLinks())
@@ -50,7 +45,7 @@ class ConfirmActivityTest {
                 .getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
         assertEquals(URL, clipboardManager.primaryClip.getItemAt(0).text)
         assertEquals(activityTestRule.activity.getString(R.string.link_clipboard_label),
-                clipboardManager.primaryClipDescription.label)
+                clipboardManager.primaryClip.description.label)
 
         val toggleButton = onView(instanceOf(ToggleButton::class.java))
         val secretText = onView(withId(R.id.confirm_secret_text))
