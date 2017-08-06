@@ -1,7 +1,5 @@
 package co.otaoto.ui.confirm
 
-import android.content.ClipboardManager
-import android.content.Context
 import android.content.Intent
 import android.support.test.InstrumentationRegistry
 import android.support.test.espresso.Espresso.onView
@@ -13,7 +11,6 @@ import android.support.test.runner.AndroidJUnit4
 import android.support.transition.TransitionManager
 import android.widget.ToggleButton
 import co.otaoto.R
-import junit.framework.Assert.assertEquals
 import org.hamcrest.Matchers.instanceOf
 import org.junit.Rule
 import org.junit.Test
@@ -40,12 +37,7 @@ class ConfirmActivityTest {
     fun smokeTest() {
         val linkText = onView(hasLinks())
         linkText.check(matches(withText(URL)))
-        linkText.perform(click())
-        val clipboardManager = activityTestRule.activity
-                .getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
-        assertEquals(URL, clipboardManager.primaryClip.getItemAt(0).text)
-        assertEquals(activityTestRule.activity.getString(R.string.link_clipboard_label),
-                clipboardManager.primaryClip.description.label)
+        // TODO add check for chooser window
 
         val toggleButton = onView(instanceOf(ToggleButton::class.java))
         val secretText = onView(withId(R.id.confirm_secret_text))

@@ -49,10 +49,10 @@ class ConfirmViewModelTest {
     }
 
     @Test
-    fun clickLink_copiesUrl() {
+    fun clickLink_sharesUrl() {
         model.clickLink(view)
 
-        verify(view).copyUrl(URL)
+        verify(view).shareUrl(URL)
     }
 
     @Test

@@ -21,7 +21,7 @@
     <string name="show_title">Your Secret</string>
     <string name="show_create_prompt">Have something you want to share?</string>
     <string name="show_create_button">Share your secret</string>
-    <string name="link_clipboard_label">Otaoto secret link</string>
+    <string name="label_share_url">Share URL</string>
     <string name="generic_error">An error occurred!</string>
     <string name="confirm_create_another">Create another</string>
     <string name="show_reveal">Show my secret</string>

@@ -1,8 +1,6 @@
 package co.otaoto.ui.confirm
 
 import android.arch.lifecycle.LifecycleActivity
-import android.content.ClipData
-import android.content.ClipboardManager
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
@@ -74,9 +72,12 @@ class ConfirmActivity : LifecycleActivity(), ConfirmViewModel.View {
         linkTextView.text = url
     }
 
-    override fun copyUrl(url: String) {
-        val clipboardManager = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
-        clipboardManager.primaryClip = ClipData.newPlainText(getString(R.string.link_clipboard_label), url)
+    override fun shareUrl(url: String) {
+        val intent = Intent(Intent.ACTION_SEND)
+                .setType("text/*")
+                .putExtra(Intent.EXTRA_TEXT, url)
+        val chooser = Intent.createChooser(intent, getString(R.string.label_share_url))
+        startActivity(chooser)
     }
 
     override fun moveToSecretScreen() {

@@ -8,7 +8,7 @@ class ConfirmViewModel : ViewModel() {
         fun hideSecret()
         fun setSecretText(text: String)
         fun setLinkUrl(url: String)
-        fun copyUrl(url: String)
+        fun shareUrl(url: String)
         fun moveToSecretScreen()
     }
 
@@ -35,7 +35,7 @@ class ConfirmViewModel : ViewModel() {
     }
 
     internal fun clickLink(view: View) {
-        view.copyUrl(url)
+        view.shareUrl(url)
     }
 
     internal fun clickCreateAnother(view: View) {
