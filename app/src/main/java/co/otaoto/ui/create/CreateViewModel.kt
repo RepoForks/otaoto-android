@@ -1,12 +1,12 @@
 package co.otaoto.ui.create
 
-import android.arch.lifecycle.ViewModel
 import co.otaoto.api.CreateError
 import co.otaoto.api.CreateSuccess
 import co.otaoto.injector.API
+import co.otaoto.ui.base.BaseViewModel
 
-class CreateViewModel : ViewModel() {
-    internal interface View {
+class CreateViewModel : BaseViewModel<CreateViewModel.View>() {
+    interface View : BaseViewModel.View {
         fun moveToConfirmScreen(secret: String, slug: String, key: String)
         fun showError()
         fun performPasswordVisibleHack()

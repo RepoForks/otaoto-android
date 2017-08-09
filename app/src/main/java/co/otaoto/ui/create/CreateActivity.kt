@@ -1,6 +1,5 @@
 package co.otaoto.ui.create
 
-import android.arch.lifecycle.LifecycleActivity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
@@ -11,13 +10,14 @@ import android.widget.Toast
 import butterknife.ButterKnife
 import butterknife.OnClick
 import co.otaoto.R
+import co.otaoto.ui.base.BaseActivity
 import co.otaoto.ui.bindView
 import co.otaoto.ui.bindViewModel
 import co.otaoto.ui.confirm.ConfirmActivity
 import kotlinx.coroutines.experimental.android.UI
 import kotlinx.coroutines.experimental.async
 
-class CreateActivity : LifecycleActivity(), CreateViewModel.View {
+class CreateActivity : BaseActivity<CreateViewModel, CreateViewModel.View>(), CreateViewModel.View {
     companion object {
         fun newIntent(context: Context) = Intent(context, CreateActivity::class.java)
     }

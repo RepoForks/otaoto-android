@@ -3,7 +3,6 @@ package co.otaoto.ui.show
 import android.content.Intent
 import android.os.Bundle
 import android.support.transition.TransitionManager
-import android.support.v7.app.AppCompatActivity
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
@@ -11,13 +10,14 @@ import android.widget.TextView
 import butterknife.ButterKnife
 import butterknife.OnClick
 import co.otaoto.R
+import co.otaoto.ui.base.BaseActivity
 import co.otaoto.ui.bindView
 import co.otaoto.ui.bindViewModel
 import co.otaoto.ui.create.CreateActivity
 import kotlinx.coroutines.experimental.android.UI
 import kotlinx.coroutines.experimental.async
 
-class ShowActivity : AppCompatActivity(), ShowViewModel.View {
+class ShowActivity : BaseActivity<ShowViewModel, ShowViewModel.View>(), ShowViewModel.View {
     private val viewModel by bindViewModel(ShowViewModel::class.java)
 
     internal val rootView: ViewGroup by bindView(R.id.activity_show)

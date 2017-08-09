@@ -1,12 +1,12 @@
 package co.otaoto.ui.show
 
-import android.arch.lifecycle.ViewModel
 import co.otaoto.api.ShowError
 import co.otaoto.api.ShowSuccess
 import co.otaoto.injector.API
+import co.otaoto.ui.base.BaseViewModel
 
-class ShowViewModel : ViewModel() {
-    interface View {
+class ShowViewModel : BaseViewModel<ShowViewModel.View>() {
+    interface View : BaseViewModel.View {
         fun renderGate()
         fun renderShow()
         fun renderGone()

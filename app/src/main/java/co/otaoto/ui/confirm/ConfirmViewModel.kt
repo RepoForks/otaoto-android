@@ -1,9 +1,9 @@
 package co.otaoto.ui.confirm
 
-import android.arch.lifecycle.ViewModel
+import co.otaoto.ui.base.BaseViewModel
 
-class ConfirmViewModel : ViewModel() {
-    internal interface View {
+class ConfirmViewModel : BaseViewModel<ConfirmViewModel.View>() {
+    interface View : BaseViewModel.View {
         fun showSecret()
         fun hideSecret()
         fun setSecretText(text: String)

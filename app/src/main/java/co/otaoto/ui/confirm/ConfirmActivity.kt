@@ -1,6 +1,5 @@
 package co.otaoto.ui.confirm
 
-import android.arch.lifecycle.LifecycleActivity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
@@ -12,11 +11,12 @@ import butterknife.ButterKnife
 import butterknife.OnCheckedChanged
 import butterknife.OnClick
 import co.otaoto.R
+import co.otaoto.ui.base.BaseActivity
 import co.otaoto.ui.bindView
 import co.otaoto.ui.bindViewModel
 import co.otaoto.ui.create.CreateActivity
 
-class ConfirmActivity : LifecycleActivity(), ConfirmViewModel.View {
+class ConfirmActivity : BaseActivity<ConfirmViewModel, ConfirmViewModel.View>(), ConfirmViewModel.View {
     companion object {
         private const val EXTRA_SECRET = "secret"
         private const val EXTRA_SLUG = "slug"
