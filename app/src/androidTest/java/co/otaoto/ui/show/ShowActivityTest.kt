@@ -54,7 +54,7 @@ class ShowActivityTest {
         val anotherButton = onView(withText(R.string.show_create_button))
         anotherButton.perform(click())
 
-        val secretSubmit = onView(withText(R.string.secret_submit))
+        val secretSubmit = onView(withText(R.string.create_submit))
         secretSubmit.check(matches(isDisplayed()))
     }
 

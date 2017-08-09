@@ -14,7 +14,7 @@ import butterknife.OnClick
 import co.otaoto.R
 import co.otaoto.ui.bindView
 import co.otaoto.ui.bindViewModel
-import co.otaoto.ui.secret.SecretActivity
+import co.otaoto.ui.create.CreateActivity
 
 class ConfirmActivity : LifecycleActivity(), ConfirmViewModel.View {
     companion object {
@@ -80,8 +80,8 @@ class ConfirmActivity : LifecycleActivity(), ConfirmViewModel.View {
         startActivity(chooser)
     }
 
-    override fun moveToSecretScreen() {
-        startActivity(SecretActivity.newIntent(this))
+    override fun moveToCreateScreen() {
+        startActivity(CreateActivity.newIntent(this))
         finish()
     }
 

@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">One Time and One Time Only</string>
-    <string name="secret_input_hint">Message</string>
-    <string name="secret_submit">Submit</string>
+    <string name="create_input_hint">Message</string>
+    <string name="create_submit">Submit</string>
 
     <string name="url_heroku" translatable="false">otaoto.herokuapp.com</string>
     <string name="url" translatable="false">otaoto.co</string>

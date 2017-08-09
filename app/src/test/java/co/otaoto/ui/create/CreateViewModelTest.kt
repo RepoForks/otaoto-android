@@ -1,4 +1,4 @@
-package co.otaoto.ui.secret
+package co.otaoto.ui.create
 
 import co.otaoto.api.MockApi
 import co.otaoto.injector.Injector
@@ -9,16 +9,16 @@ import org.mockito.Mock
 import org.mockito.Mockito.*
 import org.mockito.MockitoAnnotations
 
-class SecretViewModelTest {
-    private lateinit var model: SecretViewModel
+class CreateViewModelTest {
+    private lateinit var model: CreateViewModel
 
     @Mock
-    private lateinit var view: SecretViewModel.View
+    private lateinit var view: CreateViewModel.View
 
     @Before
     fun setUp() {
         MockitoAnnotations.initMocks(this)
-        model = SecretViewModel()
+        model = CreateViewModel()
         Injector.api = MockApi()
     }
 

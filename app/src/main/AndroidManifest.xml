@@ -17,7 +17,7 @@
         tools:ignore="UnusedAttribute"
         >
         <activity
-            android:name="co.otaoto.ui.secret.SecretActivity"
+            android:name="co.otaoto.ui.create.CreateActivity"
             android:autoRemoveFromRecents="true"
             android:persistableMode="persistNever"
             android:windowSoftInputMode="stateUnchanged|adjustResize"

@@ -13,7 +13,7 @@ import butterknife.OnClick
 import co.otaoto.R
 import co.otaoto.ui.bindView
 import co.otaoto.ui.bindViewModel
-import co.otaoto.ui.secret.SecretActivity
+import co.otaoto.ui.create.CreateActivity
 import kotlinx.coroutines.experimental.android.UI
 import kotlinx.coroutines.experimental.async
 
@@ -26,7 +26,7 @@ class ShowActivity : AppCompatActivity(), ShowViewModel.View {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_view)
+        setContentView(R.layout.activity_show)
         ButterKnife.bind(this)
         val pathSegments = intent.data.pathSegments
         viewModel.init(this, pathSegments)
@@ -56,8 +56,8 @@ class ShowActivity : AppCompatActivity(), ShowViewModel.View {
         secretTextView.text = secret
     }
 
-    override fun moveToSecretScreen() {
-        startActivity(Intent(this, SecretActivity::class.java))
+    override fun moveToCreateScreen() {
+        startActivity(Intent(this, CreateActivity::class.java))
         finish()
     }
 

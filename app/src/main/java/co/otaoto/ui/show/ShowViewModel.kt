@@ -11,7 +11,7 @@ class ShowViewModel : ViewModel() {
         fun renderShow()
         fun renderGone()
         fun showSecret(secret: String)
-        fun moveToSecretScreen()
+        fun moveToCreateScreen()
     }
 
     private enum class State(val path: String, val render: View.() -> Unit) {
@@ -38,7 +38,7 @@ class ShowViewModel : ViewModel() {
     }
 
     internal fun clickCreateAnother(view: View) {
-        view.moveToSecretScreen()
+        view.moveToCreateScreen()
     }
 
     internal suspend fun clickReveal(view: View) {

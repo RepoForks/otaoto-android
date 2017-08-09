@@ -9,7 +9,7 @@ class ConfirmViewModel : ViewModel() {
         fun setSecretText(text: String)
         fun setLinkUrl(url: String)
         fun shareUrl(url: String)
-        fun moveToSecretScreen()
+        fun moveToCreateScreen()
     }
 
     private lateinit var secret: String
@@ -39,6 +39,6 @@ class ConfirmViewModel : ViewModel() {
     }
 
     internal fun clickCreateAnother(view: View) {
-        view.moveToSecretScreen()
+        view.moveToCreateScreen()
     }
 }

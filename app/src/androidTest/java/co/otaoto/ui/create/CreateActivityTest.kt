@@ -1,4 +1,4 @@
-package co.otaoto.ui.secret
+package co.otaoto.ui.create
 
 import android.support.test.espresso.Espresso.onView
 import android.support.test.espresso.action.ViewActions.*
@@ -19,14 +19,14 @@ import org.junit.Test
 import org.junit.runner.RunWith
 
 @RunWith(AndroidJUnit4::class)
-class SecretActivityTest {
+class CreateActivityTest {
     companion object {
         const val SECRET = "Shh! Don't tell anyone!"
     }
 
     @Rule
     @JvmField
-    val activityTestRule = ActivityTestRule(SecretActivity::class.java)
+    val activityTestRule = ActivityTestRule(CreateActivity::class.java)
 
     @Before
     fun setUp() {
@@ -42,13 +42,13 @@ class SecretActivityTest {
         passwordToggle.perform(portraitRotation())
         passwordToggle.check(matches(isChecked()))
 
-        val inputField = onView(withTextInputLayoutHint(R.string.secret_input_hint))
+        val inputField = onView(withTextInputLayoutHint(R.string.create_input_hint))
         inputField.check(matches(isDisplayed()))
         inputField.perform(typeText(SECRET))
         inputField.check(matches(withText(SECRET)))
         inputField.perform(closeSoftKeyboard())
 
-        val submitButton = onView(withText(R.string.secret_submit))
+        val submitButton = onView(withText(R.string.create_submit))
         submitButton.check(matches(isDisplayed()))
         submitButton.perform(click())
 

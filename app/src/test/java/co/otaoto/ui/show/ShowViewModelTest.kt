@@ -104,6 +104,6 @@ class ShowViewModelTest {
     fun clickAnother_movesToSecret() {
         model.clickCreateAnother(view)
 
-        verify(view).moveToSecretScreen()
+        verify(view).moveToCreateScreen()
     }
 }
