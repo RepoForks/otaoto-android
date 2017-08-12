@@ -7,7 +7,6 @@ import android.support.test.espresso.action.ViewActions.click
 import android.support.test.espresso.assertion.ViewAssertions.matches
 import android.support.test.espresso.matcher.ViewMatchers.*
 import android.support.test.rule.ActivityTestRule
-import android.support.test.runner.AndroidJUnit4
 import android.support.transition.TransitionManager
 import co.otaoto.R
 import co.otaoto.api.MockApi
@@ -17,9 +16,7 @@ import org.hamcrest.Matchers.not
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
-import org.junit.runner.RunWith
 
-@RunWith(AndroidJUnit4::class)
 class ShowActivityTest {
     companion object {
         const val SLUG = "three-word-slug"
