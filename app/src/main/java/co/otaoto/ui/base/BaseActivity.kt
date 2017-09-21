@@ -1,7 +1,5 @@
 package co.otaoto.ui.base
 
-import android.annotation.SuppressLint
-import android.arch.lifecycle.LifecycleActivity
+import android.support.v7.app.AppCompatActivity
 
-@SuppressLint("Registered")
-open class BaseActivity<VM : BaseViewModel<V>, V : BaseViewModel.View> : LifecycleActivity()
+abstract class BaseActivity<VM : BaseViewModel<V>, V : BaseViewModel.View> : AppCompatActivity()

@@ -21,12 +21,12 @@ android {
 }
 
 ext {
-    archVersion = "1.0.0-alpha8"
-    butterknifeVersion = "8.8.0"
-    coroutineVersion = "0.17"
-    espressoVersion = "3.0.0"
+    archVersion = "1.0.0-alpha9-1"
+    butterknifeVersion = "8.8.1"
+    coroutineVersion = "0.18"
+    espressoVersion = "3.0.1"
     retrofitVersion = "2.3.0"
-    supportVersion = "26.0.1"
+    supportVersion = "26.1.0"
 }
 
 dependencies {
@@ -60,7 +60,7 @@ dependencies {
 
     androidTestImplementation "com.android.support.test.espresso:espresso-core:$espressoVersion"
     androidTestImplementation "com.android.support.test.espresso:espresso-contrib:$espressoVersion"
-    androidTestImplementation "com.android.support.test:runner:1.0.0"
+    androidTestImplementation "com.android.support.test:runner:1.0.1"
     androidTestImplementation "android.arch.core:core-testing:$archVersion"
 }
 
