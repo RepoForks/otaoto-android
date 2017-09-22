@@ -6,13 +6,10 @@ import android.support.test.espresso.assertion.ViewAssertions.matches
 import android.support.test.espresso.matcher.ViewMatchers.*
 import android.support.test.rule.ActivityTestRule
 import co.otaoto.R
-import co.otaoto.api.MockApi
-import co.otaoto.injector.Injector
 import co.otaoto.util.OrientationAction.Companion.landscapeRotation
 import co.otaoto.util.OrientationAction.Companion.portraitRotation
 import co.otaoto.util.isTextInputLayoutPasswordToggle
 import co.otaoto.util.withTextInputLayoutHint
-import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 
@@ -24,11 +21,6 @@ class CreateActivityTest {
     @Rule
     @JvmField
     val activityTestRule = ActivityTestRule(CreateActivity::class.java)
-
-    @Before
-    fun setUp() {
-        Injector.api = MockApi()
-    }
 
     @Test
     fun smokeTest() {

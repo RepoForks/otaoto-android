@@ -10,12 +10,14 @@ import android.widget.TextView
 import butterknife.ButterKnife
 import butterknife.OnClick
 import co.otaoto.R
+import co.otaoto.api.Api
 import co.otaoto.ui.base.BaseActivity
 import co.otaoto.ui.bindView
 import co.otaoto.ui.bindViewModel
 import co.otaoto.ui.create.CreateActivity
 import kotlinx.coroutines.experimental.android.UI
-import kotlinx.coroutines.experimental.async
+import kotlinx.coroutines.experimental.launch
+import javax.inject.Inject
 
 class ShowActivity : BaseActivity<ShowViewModel, ShowViewModel.View>(), ShowViewModel.View {
     private val viewModel by bindViewModel(ShowViewModel::class.java)
@@ -24,12 +26,15 @@ class ShowActivity : BaseActivity<ShowViewModel, ShowViewModel.View>(), ShowView
     private val secretTextView: TextView by bindView(R.id.show_secret_text)
     private val revealButton: Button by bindView(R.id.show_reveal_button)
 
+    @Inject
+    lateinit var api: Api
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_show)
         ButterKnife.bind(this)
         val pathSegments = intent.data.pathSegments
-        viewModel.init(this, pathSegments)
+        viewModel.init(this, pathSegments, api)
     }
 
     override fun renderGate() {
@@ -63,7 +68,7 @@ class ShowActivity : BaseActivity<ShowViewModel, ShowViewModel.View>(), ShowView
 
     @OnClick(R.id.show_reveal_button)
     internal fun onRevealClick() {
-        async(UI) {
+        launch(UI) {
             viewModel.clickReveal(this@ShowActivity)
         }
     }

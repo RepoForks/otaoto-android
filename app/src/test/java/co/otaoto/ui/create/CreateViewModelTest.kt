@@ -1,7 +1,6 @@
 package co.otaoto.ui.create
 
 import co.otaoto.api.MockApi
-import co.otaoto.injector.Injector
 import kotlinx.coroutines.experimental.runBlocking
 import org.junit.Before
 import org.junit.Test
@@ -10,6 +9,10 @@ import org.mockito.Mockito.*
 import org.mockito.MockitoAnnotations
 
 class CreateViewModelTest {
+    companion object {
+        val API = MockApi()
+    }
+
     private lateinit var model: CreateViewModel
 
     @Mock
@@ -19,20 +22,20 @@ class CreateViewModelTest {
     fun setUp() {
         MockitoAnnotations.initMocks(this)
         model = CreateViewModel()
-        Injector.api = MockApi()
     }
 
     @Test
     fun init_performPasswordVisibleHack_onlyFirstTime() {
-        model.init(view)
-        model.init(view)
-        model.init(view)
+        model.init(view, API)
+        model.init(view, API)
+        model.init(view, API)
 
         verify(view, times(1)).performPasswordVisibleHack()
     }
 
     @Test
     fun submit_moveToConfirm_ifSuccess() = runBlocking {
+        model.init(view, API)
         model.submit(view, MockApi.SECRET)
 
         verify(view).moveToConfirmScreen(anyString(), anyString(), anyString())
@@ -40,6 +43,7 @@ class CreateViewModelTest {
 
     @Test
     fun submit_showError_ifFailure() = runBlocking {
+        model.init(view, API)
         model.submit(view, MockApi.ERROR)
 
         verify(view).showError()

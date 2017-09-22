@@ -10,12 +10,14 @@ import android.widget.Toast
 import butterknife.ButterKnife
 import butterknife.OnClick
 import co.otaoto.R
+import co.otaoto.api.Api
 import co.otaoto.ui.base.BaseActivity
 import co.otaoto.ui.bindView
 import co.otaoto.ui.bindViewModel
 import co.otaoto.ui.confirm.ConfirmActivity
 import kotlinx.coroutines.experimental.android.UI
-import kotlinx.coroutines.experimental.async
+import kotlinx.coroutines.experimental.launch
+import javax.inject.Inject
 
 class CreateActivity : BaseActivity<CreateViewModel, CreateViewModel.View>(), CreateViewModel.View {
     companion object {
@@ -27,11 +29,14 @@ class CreateActivity : BaseActivity<CreateViewModel, CreateViewModel.View>(), Cr
     private val inputLayout: TextInputLayout by bindView(R.id.create_input_layout)
     private val inputTextView: TextView by bindView(R.id.create_input_edittext)
 
+    @Inject
+    lateinit var api: Api
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_create)
         ButterKnife.bind(this)
-        viewModel.init(this)
+        viewModel.init(this, api)
     }
 
     override fun moveToConfirmScreen(secret: String, slug: String, key: String) {
@@ -50,7 +55,7 @@ class CreateActivity : BaseActivity<CreateViewModel, CreateViewModel.View>(), Cr
 
     @OnClick(R.id.create_submit_button)
     internal fun onSubmitClick() {
-        async(UI) {
+        launch(UI) {
             val text = inputTextView.text ?: ""
             viewModel.submit(this@CreateActivity, text.toString())
         }

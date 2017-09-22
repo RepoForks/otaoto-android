@@ -1,8 +1,8 @@
 package co.otaoto.ui.show
 
+import co.otaoto.api.Api
 import co.otaoto.api.ShowError
 import co.otaoto.api.ShowSuccess
-import co.otaoto.injector.API
 import co.otaoto.ui.base.BaseViewModel
 
 class ShowViewModel : BaseViewModel<ShowViewModel.View>() {
@@ -25,7 +25,10 @@ class ShowViewModel : BaseViewModel<ShowViewModel.View>() {
     private var key: String? = null
     private var secret: String? = null
 
-    internal fun init(view: View, pathSegments: List<String>) {
+    lateinit var api: Api
+
+    internal fun init(view: View, pathSegments: List<String>, api: Api) {
+        this.api = api
         if (pathSegments.size == 3) {
             slug = pathSegments[1]
             key = pathSegments[2]
@@ -45,7 +48,7 @@ class ShowViewModel : BaseViewModel<ShowViewModel.View>() {
         val slug = this.slug
         val key = this.key
         if (state != State.GATE || slug == null || key == null) return
-        val result = API.show(slug, key)
+        val result = api.show(slug, key)
         return when (result) {
             is ShowSuccess -> {
                 val secret = result.plainText

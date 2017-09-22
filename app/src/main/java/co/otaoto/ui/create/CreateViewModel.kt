@@ -1,8 +1,8 @@
 package co.otaoto.ui.create
 
+import co.otaoto.api.Api
 import co.otaoto.api.CreateError
 import co.otaoto.api.CreateSuccess
-import co.otaoto.injector.API
 import co.otaoto.ui.base.BaseViewModel
 
 class CreateViewModel : BaseViewModel<CreateViewModel.View>() {
@@ -12,16 +12,19 @@ class CreateViewModel : BaseViewModel<CreateViewModel.View>() {
         fun performPasswordVisibleHack()
     }
 
+    lateinit var api: Api
+
     private var hasPerformedPasswordVisibleHack = false
 
-    internal fun init(view: View) {
+    internal fun init(view: View, api: Api) {
+        this.api = api
         if (hasPerformedPasswordVisibleHack) return
         hasPerformedPasswordVisibleHack = true
         view.performPasswordVisibleHack()
     }
 
     internal suspend fun submit(view: View, secret: String) {
-        val result = API.create(secret)
+        val result = api.create(secret)
         return when (result) {
             is CreateSuccess -> view.moveToConfirmScreen(secret, result.slug, result.key)
             is CreateError -> view.showError()

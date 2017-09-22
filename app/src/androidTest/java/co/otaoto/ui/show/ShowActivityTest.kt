@@ -10,10 +10,8 @@ import android.support.test.rule.ActivityTestRule
 import android.support.transition.TransitionManager
 import co.otaoto.R
 import co.otaoto.api.MockApi
-import co.otaoto.injector.Injector
 import co.otaoto.ui.show.ShowActivity
 import org.hamcrest.Matchers.not
-import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 
@@ -26,11 +24,6 @@ class ShowActivityTest {
     @Rule
     @JvmField
     val activityTestRule = ActivityTestRule(ShowActivity::class.java, false, false)
-
-    @Before
-    fun setUp() {
-        Injector.api = MockApi()
-    }
 
     @Test
     fun smokeTest() {

@@ -1,5 +1,6 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-kapt'
 
 android {
     compileSdkVersion 26
@@ -18,12 +19,22 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+    flavorDimensions "api"
+    productFlavors {
+        production {
+            dimension "api"
+        }
+        mocked {
+            dimension "api"
+        }
+    }
 }
 
 ext {
     archVersion = "1.0.0-alpha9-1"
     butterknifeVersion = "8.8.1"
     coroutineVersion = "0.18"
+    daggerVersion = "2.11"
     espressoVersion = "3.0.1"
     retrofitVersion = "2.3.0"
     supportVersion = "26.1.0"
@@ -35,6 +46,11 @@ dependencies {
 
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutineVersion"
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutineVersion"
+
+    implementation "com.google.dagger:dagger-android:$daggerVersion"
+    implementation "com.google.dagger:dagger-android-support:$daggerVersion"
+    kapt "com.google.dagger:dagger-compiler:$daggerVersion"
+    kapt "com.google.dagger:dagger-android-processor:$daggerVersion"
 
     implementation "com.android.support:appcompat-v7:$supportVersion"
     implementation "com.android.support:design:$supportVersion"
