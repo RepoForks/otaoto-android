@@ -29,37 +29,36 @@ class ShowViewModelTest {
     @Before
     fun setUp() {
         MockitoAnnotations.initMocks(this)
-        model = ShowViewModel()
     }
 
     @Test
     fun init_rendersGate_ifPathGate() {
-        val pathSegments = listOf("gate", SLUG, KEY)
-        model.init(view, pathSegments, API)
+        setupDefaultModel("gate")
+        model.init(view)
 
         verify(view).renderGate()
     }
 
     @Test
     fun init_rendersGate_ifPathShow() {
-        val pathSegments = listOf("show", SLUG, KEY)
-        model.init(view, pathSegments, API)
+        setupDefaultModel("show")
+        model.init(view)
 
         verify(view).renderGate()
     }
 
     @Test
     fun init_rendersGone_ifPathGone() {
-        val pathSegments = listOf("gone", SLUG, KEY)
-        model.init(view, pathSegments, API)
+        setupDefaultModel("gone")
+        model.init(view)
 
         verify(view).renderGone()
     }
 
     @Test
     fun init_rendersGone_ifPathArbitrary() {
-        val pathSegments = listOf("lol", SLUG, KEY)
-        model.init(view, pathSegments, API)
+        setupDefaultModel("lol")
+        model.init(view)
 
         verify(view).renderGone()
     }
@@ -67,7 +66,8 @@ class ShowViewModelTest {
     @Test
     fun init_rendersGone_ifPathShort() {
         val pathSegments = listOf("gate")
-        model.init(view, pathSegments, API)
+        model = ShowViewModel(API, pathSegments)
+        model.init(view)
 
         verify(view).renderGone()
     }
@@ -75,7 +75,8 @@ class ShowViewModelTest {
     @Test
     fun init_rendersGone_ifPathLong() {
         val pathSegments = listOf("gate", "foo", "bar", "baz")
-        model.init(view, pathSegments, API)
+        model = ShowViewModel(API, pathSegments)
+        model.init(view)
 
         verify(view).renderGone()
     }
@@ -83,7 +84,7 @@ class ShowViewModelTest {
     @Test
     fun clickReveal_showsSecret_ifSuccess() {
         runBlocking {
-            model.init(view, listOf("gate", SLUG, KEY), API)
+            setupDefaultModel("gate")
             model.clickReveal(view)
 
             verify(view).renderShow()
@@ -93,7 +94,8 @@ class ShowViewModelTest {
 
     @Test
     fun clickReveal_showsSecret_ifFailure() = runBlocking {
-        model.init(view, listOf("gate", MockApi.ERROR, KEY), API)
+        val pathSegments = listOf("gate", MockApi.ERROR, KEY)
+        model = ShowViewModel(API, pathSegments)
         model.clickReveal(view)
 
         verify(view).renderGone()
@@ -101,8 +103,14 @@ class ShowViewModelTest {
 
     @Test
     fun clickAnother_movesToSecret() {
+        setupDefaultModel("gate")
         model.clickCreateAnother(view)
 
         verify(view).moveToCreateScreen()
+    }
+
+    private fun setupDefaultModel(path: String) {
+        val pathSegments = listOf(path, SLUG, KEY)
+        model = ShowViewModel(API, pathSegments)
     }
 }

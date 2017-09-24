@@ -1,8 +1,16 @@
 package co.otaoto.ui.confirm
 
 import co.otaoto.ui.base.BaseViewModel
+import javax.inject.Inject
+import javax.inject.Named
 
-class ConfirmViewModel : BaseViewModel<ConfirmViewModel.View>() {
+class ConfirmViewModel(private val secret: String, slug: String, key: String) : BaseViewModel<ConfirmViewModel.View>() {
+    companion object {
+        internal const val PARAM_SECRET = "secret"
+        internal const val PARAM_SLUG = "slug"
+        internal const val PARAM_KEY = "key"
+    }
+
     interface View : BaseViewModel.View {
         fun showSecret()
         fun hideSecret()
@@ -12,15 +20,25 @@ class ConfirmViewModel : BaseViewModel<ConfirmViewModel.View>() {
         fun moveToCreateScreen()
     }
 
-    private lateinit var secret: String
-    private lateinit var slug: String
-    private lateinit var key: String
-    private val url: String get() = "https://otaoto.co/gate/$slug/$key"
+    class Factory @Inject constructor() : BaseViewModel.Factory<ConfirmViewModel>() {
+        @Inject
+        @field:Named(PARAM_SECRET)
+        internal lateinit var secret: String
 
-    internal fun init(view: View, secret: String, slug: String, key: String) {
-        this.secret = secret
-        this.slug = slug
-        this.key = key
+        @Inject
+        @field:Named(PARAM_SLUG)
+        internal lateinit var slug: String
+
+        @Inject
+        @field:Named(PARAM_KEY)
+        internal lateinit var key: String
+
+        override fun create(): ConfirmViewModel = ConfirmViewModel(secret, slug, key)
+    }
+
+    private val url: String = "https://otaoto.co/gate/$slug/$key"
+
+    override fun init(view: View) {
         view.setLinkUrl(url)
     }
 

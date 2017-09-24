@@ -2,18 +2,14 @@ package co.otaoto.ui.create
 
 import android.content.Context
 import android.content.Intent
-import android.os.Bundle
 import android.support.design.widget.TextInputLayout
 import android.view.View
 import android.widget.TextView
 import android.widget.Toast
-import butterknife.ButterKnife
 import butterknife.OnClick
 import co.otaoto.R
-import co.otaoto.api.Api
 import co.otaoto.ui.base.BaseActivity
 import co.otaoto.ui.bindView
-import co.otaoto.ui.bindViewModel
 import co.otaoto.ui.confirm.ConfirmActivity
 import kotlinx.coroutines.experimental.android.UI
 import kotlinx.coroutines.experimental.launch
@@ -24,20 +20,14 @@ class CreateActivity : BaseActivity<CreateViewModel, CreateViewModel.View>(), Cr
         fun newIntent(context: Context) = Intent(context, CreateActivity::class.java)
     }
 
-    private val viewModel by bindViewModel(CreateViewModel::class.java)
+    @Inject
+    override lateinit var viewModelFactory: CreateViewModel.Factory
+    override val viewModelClass get() = CreateViewModel::class.java
 
     private val inputLayout: TextInputLayout by bindView(R.id.create_input_layout)
     private val inputTextView: TextView by bindView(R.id.create_input_edittext)
 
-    @Inject
-    lateinit var api: Api
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_create)
-        ButterKnife.bind(this)
-        viewModel.init(this, api)
-    }
+    override val layoutRes: Int get() = R.layout.activity_create
 
     override fun moveToConfirmScreen(secret: String, slug: String, key: String) {
         startActivity(ConfirmActivity.newIntent(this, secret, slug, key))

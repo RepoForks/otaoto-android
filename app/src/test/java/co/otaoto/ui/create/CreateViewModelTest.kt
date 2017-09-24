@@ -21,21 +21,20 @@ class CreateViewModelTest {
     @Before
     fun setUp() {
         MockitoAnnotations.initMocks(this)
-        model = CreateViewModel()
+        model = CreateViewModel(API)
     }
 
     @Test
     fun init_performPasswordVisibleHack_onlyFirstTime() {
-        model.init(view, API)
-        model.init(view, API)
-        model.init(view, API)
+        model.init(view)
+        model.init(view)
+        model.init(view)
 
         verify(view, times(1)).performPasswordVisibleHack()
     }
 
     @Test
     fun submit_moveToConfirm_ifSuccess() = runBlocking {
-        model.init(view, API)
         model.submit(view, MockApi.SECRET)
 
         verify(view).moveToConfirmScreen(anyString(), anyString(), anyString())
@@ -43,7 +42,6 @@ class CreateViewModelTest {
 
     @Test
     fun submit_showError_ifFailure() = runBlocking {
-        model.init(view, API)
         model.submit(view, MockApi.ERROR)
 
         verify(view).showError()

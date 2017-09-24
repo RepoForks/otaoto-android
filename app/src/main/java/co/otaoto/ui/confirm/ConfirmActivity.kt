@@ -2,52 +2,40 @@ package co.otaoto.ui.confirm
 
 import android.content.Context
 import android.content.Intent
-import android.os.Bundle
 import android.support.transition.TransitionManager
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import butterknife.ButterKnife
 import butterknife.OnCheckedChanged
 import butterknife.OnClick
 import co.otaoto.R
 import co.otaoto.ui.base.BaseActivity
 import co.otaoto.ui.bindView
-import co.otaoto.ui.bindViewModel
+import co.otaoto.ui.confirm.ConfirmViewModel.Companion.PARAM_KEY
+import co.otaoto.ui.confirm.ConfirmViewModel.Companion.PARAM_SECRET
+import co.otaoto.ui.confirm.ConfirmViewModel.Companion.PARAM_SLUG
 import co.otaoto.ui.create.CreateActivity
+import javax.inject.Inject
 
 class ConfirmActivity : BaseActivity<ConfirmViewModel, ConfirmViewModel.View>(), ConfirmViewModel.View {
     companion object {
-        private const val EXTRA_SECRET = "secret"
-        private const val EXTRA_SLUG = "slug"
-        private const val EXTRA_KEY = "key"
-
         fun newIntent(context: Context, secret: String, slug: String, key: String): Intent {
             return Intent(context, ConfirmActivity::class.java)
-                    .putExtra(EXTRA_SECRET, secret)
-                    .putExtra(EXTRA_SLUG, slug)
-                    .putExtra(EXTRA_KEY, key)
+                    .putExtra(PARAM_SECRET, secret)
+                    .putExtra(PARAM_SLUG, slug)
+                    .putExtra(PARAM_KEY, key)
         }
     }
 
-    private val viewModel by bindViewModel(ConfirmViewModel::class.java)
+    @Inject
+    override lateinit var viewModelFactory: ConfirmViewModel.Factory
+    override val viewModelClass get() = ConfirmViewModel::class.java
 
     internal val rootView: ViewGroup by bindView(R.id.activity_confirm)
     private val secretTextView: TextView by bindView(R.id.confirm_secret_text)
     private val linkTextView: TextView by bindView(R.id.confirm_link_text)
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_confirm)
-        ButterKnife.bind(this)
-        with(intent.extras) {
-            viewModel.init(
-                    view = this@ConfirmActivity,
-                    secret = getString(EXTRA_SECRET),
-                    slug = getString(EXTRA_SLUG),
-                    key = getString(EXTRA_KEY))
-        }
-    }
+    override val layoutRes: Int get() = R.layout.activity_confirm
 
     override fun showSecret() {
         animateSecretVisibility(View.VISIBLE)

@@ -4,8 +4,9 @@ import co.otaoto.api.Api
 import co.otaoto.api.ShowError
 import co.otaoto.api.ShowSuccess
 import co.otaoto.ui.base.BaseViewModel
+import javax.inject.Inject
 
-class ShowViewModel : BaseViewModel<ShowViewModel.View>() {
+class ShowViewModel(private val api: Api, pathSegments: List<String>) : BaseViewModel<ShowViewModel.View>() {
     interface View : BaseViewModel.View {
         fun renderGate()
         fun renderShow()
@@ -14,29 +15,43 @@ class ShowViewModel : BaseViewModel<ShowViewModel.View>() {
         fun moveToCreateScreen()
     }
 
-    private enum class State(val path: String, val render: View.() -> Unit) {
+    class Factory @Inject constructor() : BaseViewModel.Factory<ShowViewModel>() {
+        @Inject
+        internal lateinit var api: Api
+
+        @Inject
+        internal lateinit var pathSegments: List<String>
+
+        override fun create(): ShowViewModel = ShowViewModel(api, pathSegments)
+    }
+
+    enum class State(val path: String, val render: View.() -> Unit) {
         GATE("gate", View::renderGate),
         SHOW("show", View::renderShow),
         GONE("gone", View::renderGone);
     }
 
-    private lateinit var state: State
-    private var slug: String? = null
-    private var key: String? = null
+    private val slug: String?
+    private val key: String?
+
+    private var state: State
+
     private var secret: String? = null
 
-    lateinit var api: Api
-
-    internal fun init(view: View, pathSegments: List<String>, api: Api) {
-        this.api = api
+    init {
         if (pathSegments.size == 3) {
             slug = pathSegments[1]
             key = pathSegments[2]
             val pathState: State = State.values().find { it.path == pathSegments[0] } ?: State.GONE
             state = if (pathState == State.SHOW) State.GATE else pathState // Never show on launch
         } else {
+            slug = null
+            key = null
             state = State.GONE
         }
+    }
+
+    override fun init(view: View) {
         view.renderState()
     }
 
@@ -45,8 +60,6 @@ class ShowViewModel : BaseViewModel<ShowViewModel.View>() {
     }
 
     internal suspend fun clickReveal(view: View) {
-        val slug = this.slug
-        val key = this.key
         if (state != State.GATE || slug == null || key == null) return
         val result = api.show(slug, key)
         return when (result) {
@@ -58,6 +71,7 @@ class ShowViewModel : BaseViewModel<ShowViewModel.View>() {
                 view.renderState()
             }
             is ShowError -> {
+                secret = null
                 state = State.GONE
                 view.renderState()
             }

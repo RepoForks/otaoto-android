@@ -22,9 +22,9 @@ class ConfirmViewModelTest {
     @Before
     fun setUp() {
         MockitoAnnotations.initMocks(this)
-        model = ConfirmViewModel()
+        model = ConfirmViewModel(SECRET, SLUG, KEY)
 
-        model.init(view, SECRET, SLUG, KEY)
+        model.init(view)
     }
 
     @Test

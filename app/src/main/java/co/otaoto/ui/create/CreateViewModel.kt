@@ -4,20 +4,25 @@ import co.otaoto.api.Api
 import co.otaoto.api.CreateError
 import co.otaoto.api.CreateSuccess
 import co.otaoto.ui.base.BaseViewModel
+import javax.inject.Inject
 
-class CreateViewModel : BaseViewModel<CreateViewModel.View>() {
+class CreateViewModel(val api: Api) : BaseViewModel<CreateViewModel.View>() {
     interface View : BaseViewModel.View {
         fun moveToConfirmScreen(secret: String, slug: String, key: String)
         fun showError()
         fun performPasswordVisibleHack()
     }
 
-    lateinit var api: Api
+    class Factory @Inject constructor() : BaseViewModel.Factory<CreateViewModel>() {
+        @Inject
+        internal lateinit var api: Api
+
+        override fun create(): CreateViewModel = CreateViewModel(api)
+    }
 
     private var hasPerformedPasswordVisibleHack = false
 
-    internal fun init(view: View, api: Api) {
-        this.api = api
+    override fun init(view: View) {
         if (hasPerformedPasswordVisibleHack) return
         hasPerformedPasswordVisibleHack = true
         view.performPasswordVisibleHack()

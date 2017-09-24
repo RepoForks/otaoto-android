@@ -1,41 +1,31 @@
 package co.otaoto.ui.show
 
 import android.content.Intent
-import android.os.Bundle
 import android.support.transition.TransitionManager
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
-import butterknife.ButterKnife
 import butterknife.OnClick
 import co.otaoto.R
-import co.otaoto.api.Api
 import co.otaoto.ui.base.BaseActivity
 import co.otaoto.ui.bindView
-import co.otaoto.ui.bindViewModel
 import co.otaoto.ui.create.CreateActivity
 import kotlinx.coroutines.experimental.android.UI
 import kotlinx.coroutines.experimental.launch
 import javax.inject.Inject
 
 class ShowActivity : BaseActivity<ShowViewModel, ShowViewModel.View>(), ShowViewModel.View {
-    private val viewModel by bindViewModel(ShowViewModel::class.java)
+
+    @Inject
+    override lateinit var viewModelFactory: ShowViewModel.Factory
+    override val viewModelClass get() = ShowViewModel::class.java
 
     internal val rootView: ViewGroup by bindView(R.id.activity_show)
     private val secretTextView: TextView by bindView(R.id.show_secret_text)
     private val revealButton: Button by bindView(R.id.show_reveal_button)
 
-    @Inject
-    lateinit var api: Api
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_show)
-        ButterKnife.bind(this)
-        val pathSegments = intent.data.pathSegments
-        viewModel.init(this, pathSegments, api)
-    }
+    override val layoutRes: Int get() = R.layout.activity_show
 
     override fun renderGate() {
         TransitionManager.beginDelayedTransition(rootView)

@@ -1,4 +1,4 @@
-package co.otaoto.ui.confirm
+package co.otaoto.ui.show
 
 import android.content.Intent
 import android.net.Uri
@@ -10,7 +10,6 @@ import android.support.test.rule.ActivityTestRule
 import android.support.transition.TransitionManager
 import co.otaoto.R
 import co.otaoto.api.MockApi
-import co.otaoto.ui.show.ShowActivity
 import org.hamcrest.Matchers.not
 import org.junit.Rule
 import org.junit.Test
