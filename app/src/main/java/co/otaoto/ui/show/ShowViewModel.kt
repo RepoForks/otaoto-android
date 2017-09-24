@@ -53,6 +53,9 @@ class ShowViewModel(private val api: Api, pathSegments: List<String>) : BaseView
 
     override fun init(view: View) {
         view.renderState()
+        if (state == State.SHOW) {
+            secret?.run { view.showSecret(this) }
+        }
     }
 
     internal fun clickCreateAnother(view: View) {

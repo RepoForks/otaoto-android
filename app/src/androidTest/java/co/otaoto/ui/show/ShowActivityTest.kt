@@ -10,6 +10,8 @@ import android.support.test.rule.ActivityTestRule
 import android.support.transition.TransitionManager
 import co.otaoto.R
 import co.otaoto.api.MockApi
+import co.otaoto.util.OrientationAction.Companion.landscapeRotation
+import co.otaoto.util.OrientationAction.Companion.portraitRotation
 import org.hamcrest.Matchers.not
 import org.junit.Rule
 import org.junit.Test
@@ -36,6 +38,15 @@ class ShowActivityTest {
 
         revealButton.perform(click())
         TransitionManager.endTransitions(activityTestRule.activity.rootView)
+        secretText.check(matches(withEffectiveVisibility(Visibility.VISIBLE)))
+        secretText.check(matches(withText(MockApi.SECRET)))
+        revealButton.check(matches(not(isEnabled())))
+
+        revealButton.perform(landscapeRotation())
+        secretText.check(matches(withEffectiveVisibility(Visibility.VISIBLE)))
+        secretText.check(matches(withText(MockApi.SECRET)))
+        revealButton.check(matches(not(isEnabled())))
+        revealButton.perform(portraitRotation())
         secretText.check(matches(withEffectiveVisibility(Visibility.VISIBLE)))
         secretText.check(matches(withText(MockApi.SECRET)))
         revealButton.check(matches(not(isEnabled())))
