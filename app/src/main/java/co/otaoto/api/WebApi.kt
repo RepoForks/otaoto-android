@@ -21,33 +21,33 @@ class WebApi : Api {
     private val api: OtaotoApi by lazy { retrofit.create(OtaotoApi::class.java) }
 
     override suspend fun create(secret: String): CreateResult {
-        try {
+        return try {
             val response = api.create(CreateRequest(CreateRequest.Secret(secret))).await()
-            return CreateSuccess(slug = response.secret.slug, key = response.secret.key)
+            CreateSuccess(slug = response.secret.slug, key = response.secret.key)
         } catch (e: HttpException) {
             e.printStackTrace()
-            return CreateError
+            CreateError
         } catch (e: Throwable) {
             e.printStackTrace()
-            return CreateError
+            CreateError
         }
     }
 
     override suspend fun show(slug: String, key: String): ShowResult {
-        try {
+        return try {
             val response = api.show(slug, key).await()
-            return response.plain_text?.let { ShowSuccess(it) } ?: ShowError(response.errors ?: "")
+            response.plain_text?.let { ShowSuccess(it) } ?: ShowError(response.errors ?: "")
         } catch (e: HttpException) {
             e.printStackTrace()
-            return ShowError("")
+            ShowError("")
         } catch (e: Throwable) {
             e.printStackTrace()
-            return ShowError("")
+            ShowError("")
         }
     }
 }
 
-private val BASE_URL = "https://otaoto.co/api/"
+private const val BASE_URL = "https://otaoto.co/api/"
 
 private interface OtaotoApi {
     @POST("create")

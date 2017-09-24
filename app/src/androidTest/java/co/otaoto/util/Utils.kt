@@ -76,4 +76,4 @@ fun withTextInputLayoutHint(expectedHintText: Int): Matcher<View> = withTextInpu
         }
 )
 
-fun isTextInputLayoutPasswordToggle() = withTextInputLayoutHelper<CheckableImageButton>(instanceOf(TextInputLayout::class.java))
+fun isTextInputLayoutPasswordToggle(): Matcher<View> = withTextInputLayoutHelper<CheckableImageButton>(instanceOf(TextInputLayout::class.java))
