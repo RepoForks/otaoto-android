@@ -31,7 +31,7 @@ android {
 }
 
 ext {
-    archVersion = "1.0.0-alpha9-1"
+    archVersion = "1.0.0-beta1"
     butterknifeVersion = "8.8.1"
     coroutineVersion = "0.18"
     daggerVersion = "2.11"
@@ -57,9 +57,9 @@ dependencies {
     implementation "com.android.support:recyclerview-v7:$supportVersion"
     implementation "com.android.support.constraint:constraint-layout:1.0.2"
 
-    implementation "android.arch.lifecycle:runtime:$archVersion"
     implementation "android.arch.lifecycle:extensions:$archVersion"
     kapt "android.arch.lifecycle:compiler:$archVersion"
+    testImplementation "android.arch.core:core-testing:$archVersion"
 
     implementation "com.squareup.retrofit2:retrofit:$retrofitVersion"
     implementation "com.squareup.retrofit2:converter-moshi:$retrofitVersion"
@@ -70,7 +70,7 @@ dependencies {
 
     implementation 'ru.gildor.coroutines:kotlin-coroutines-retrofit:0.7.1'
 
-    testImplementation 'org.mockito:mockito-core:2.8.47'
+    testImplementation 'org.mockito:mockito-core:2.9.0'
     testImplementation "android.arch.core:core-testing:$archVersion"
     testImplementation "junit:junit:4.12"
 
