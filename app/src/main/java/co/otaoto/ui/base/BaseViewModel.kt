@@ -1,5 +1,7 @@
 package co.otaoto.ui.base
 
+import android.arch.lifecycle.LiveData
+import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
 import android.arch.lifecycle.ViewModelProvider
 
@@ -13,5 +15,16 @@ abstract class BaseViewModel<in V : BaseViewModel.View> : ViewModel() {
         protected abstract fun create(): VM
     }
 
+    private val _loadingDialogVisible = MutableLiveData<Boolean>()
+    val loadingDialogVisible: LiveData<Boolean> = _loadingDialogVisible
+
     open fun init(view: V) {}
+
+    protected fun showLoadingDialog() {
+        _loadingDialogVisible.value = true
+    }
+
+    protected fun hideLoadingDialog() {
+        _loadingDialogVisible.value = false
+    }
 }

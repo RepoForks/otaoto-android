@@ -64,7 +64,9 @@ class ShowViewModel(private val api: Api, pathSegments: List<String>) : BaseView
 
     internal suspend fun clickReveal(view: View) {
         if (state != State.GATE || slug == null || key == null) return
+        showLoadingDialog()
         val result = api.show(slug, key)
+        hideLoadingDialog()
         return when (result) {
             is ShowSuccess -> {
                 val secret = result.plainText

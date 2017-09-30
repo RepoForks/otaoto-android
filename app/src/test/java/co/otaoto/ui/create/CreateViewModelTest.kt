@@ -1,8 +1,10 @@
 package co.otaoto.ui.create
 
+import android.arch.core.executor.testing.InstantTaskExecutorRule
 import co.otaoto.api.MockApi
 import kotlinx.coroutines.experimental.runBlocking
 import org.junit.Before
+import org.junit.Rule
 import org.junit.Test
 import org.mockito.Mock
 import org.mockito.Mockito.*
@@ -12,6 +14,10 @@ class CreateViewModelTest {
     companion object {
         val API = MockApi()
     }
+
+    @Rule
+    @JvmField
+    val rule = InstantTaskExecutorRule()
 
     private lateinit var model: CreateViewModel
 

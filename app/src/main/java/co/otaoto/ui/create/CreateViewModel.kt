@@ -29,7 +29,9 @@ class CreateViewModel(val api: Api) : BaseViewModel<CreateViewModel.View>() {
     }
 
     internal suspend fun submit(view: View, secret: String) {
+        showLoadingDialog()
         val result = api.create(secret)
+        hideLoadingDialog()
         return when (result) {
             is CreateSuccess -> view.moveToConfirmScreen(secret, result.slug, result.key)
             is CreateError -> view.showError()
