@@ -56,7 +56,7 @@ class ConfirmViewModelTest {
     }
 
     @Test
-    fun lol() {
+    fun clickCreateAnother_movesToCreate() {
         model.clickCreateAnother(view)
 
         verify(view).moveToCreateScreen()
