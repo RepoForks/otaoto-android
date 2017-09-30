@@ -32,7 +32,6 @@
         <activity
             android:name=".ui.show.ShowActivity"
             android:autoRemoveFromRecents="true"
-            android:label="@string/show_title"
             android:persistableMode="persistNever"
             >
             <intent-filter>
