@@ -39,6 +39,7 @@ class ConfirmViewModel(private val secret: String, slug: String, key: String) : 
     private val url: String = "https://otaoto.co/gate/$slug/$key"
 
     override fun init(view: View) {
+        super.init(view)
         view.setLinkUrl(url)
     }
 

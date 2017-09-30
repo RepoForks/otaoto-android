@@ -23,15 +23,16 @@ class CreateViewModel(val api: Api) : BaseViewModel<CreateViewModel.View>() {
     private var hasPerformedPasswordVisibleHack = false
 
     override fun init(view: View) {
+        super.init(view)
         if (hasPerformedPasswordVisibleHack) return
         hasPerformedPasswordVisibleHack = true
         view.performPasswordVisibleHack()
     }
 
     internal suspend fun submit(view: View, secret: String) {
-        showLoadingDialog()
+        loadingDialogVisible.value = true
         val result = api.create(secret)
-        hideLoadingDialog()
+        loadingDialogVisible.value = false
         return when (result) {
             is CreateSuccess -> view.moveToConfirmScreen(secret, result.slug, result.key)
             is CreateError -> view.showError()

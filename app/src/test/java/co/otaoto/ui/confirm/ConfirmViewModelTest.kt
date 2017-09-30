@@ -1,30 +1,22 @@
 package co.otaoto.ui.confirm
 
+import co.otaoto.ui.base.BaseViewModelTest
+import co.otaoto.ui.base.MockView
 import org.junit.Before
 import org.junit.Test
-import org.mockito.Mock
 import org.mockito.Mockito.verify
-import org.mockito.MockitoAnnotations
+import org.mockito.Spy
 
-class ConfirmViewModelTest {
-    companion object {
-        const val SECRET = "That's my secret, Captain"
-        const val SLUG = "three-word-slug"
-        const val KEY = "1234567890ABCDEF"
-        const val URL = "https://otaoto.co/gate/$SLUG/$KEY"
-    }
+class ConfirmViewModelTest : BaseViewModelTest<ConfirmViewModel, ConfirmViewModel.View>() {
+    abstract class MockConfirmView : MockView(), ConfirmViewModel.View
 
-    private lateinit var model: ConfirmViewModel
-
-    @Mock
-    private lateinit var view: ConfirmViewModel.View
+    @Spy
+    override lateinit var view: MockConfirmView
 
     @Before
     fun setUp() {
-        MockitoAnnotations.initMocks(this)
-        model = ConfirmViewModel(SECRET, SLUG, KEY)
-
-        model.init(view)
+        viewModel = ConfirmViewModel(SECRET, SLUG, KEY)
+        viewModel.init(view)
     }
 
     @Test
@@ -34,7 +26,7 @@ class ConfirmViewModelTest {
 
     @Test
     fun setSecretVisible_showsSecret_ifTrue() {
-        model.setSecretVisible(view, true)
+        viewModel.setSecretVisible(view, true)
 
         verify(view).showSecret()
         verify(view).setSecretText(SECRET)
@@ -42,7 +34,7 @@ class ConfirmViewModelTest {
 
     @Test
     fun setSecretVisible_hidesSecret_ifFalse() {
-        model.setSecretVisible(view, false)
+        viewModel.setSecretVisible(view, false)
 
         verify(view).hideSecret()
         verify(view).setSecretText("")
@@ -50,14 +42,14 @@ class ConfirmViewModelTest {
 
     @Test
     fun clickLink_sharesUrl() {
-        model.clickLink(view)
+        viewModel.clickLink(view)
 
         verify(view).shareUrl(URL)
     }
 
     @Test
     fun clickCreateAnother_movesToCreate() {
-        model.clickCreateAnother(view)
+        viewModel.clickCreateAnother(view)
 
         verify(view).moveToCreateScreen()
     }

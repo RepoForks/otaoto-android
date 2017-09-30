@@ -1,12 +1,14 @@
 package co.otaoto.ui.base
 
-import android.arch.lifecycle.LiveData
-import android.arch.lifecycle.MutableLiveData
-import android.arch.lifecycle.ViewModel
-import android.arch.lifecycle.ViewModelProvider
+import android.arch.lifecycle.*
+import android.support.annotation.CallSuper
 
 abstract class BaseViewModel<in V : BaseViewModel.View> : ViewModel() {
-    interface View
+    interface View {
+        fun <T> observe(liveData: LiveData<T>, observer: Observer<T>)
+        fun showLoadingDialog()
+        fun hideLoadingDialog()
+    }
 
     abstract class Factory<out VM : BaseViewModel<*>> : ViewModelProvider.Factory {
         @Suppress("UNCHECKED_CAST")
@@ -15,16 +17,16 @@ abstract class BaseViewModel<in V : BaseViewModel.View> : ViewModel() {
         protected abstract fun create(): VM
     }
 
-    private val _loadingDialogVisible = MutableLiveData<Boolean>()
-    val loadingDialogVisible: LiveData<Boolean> = _loadingDialogVisible
+    protected val loadingDialogVisible = MutableLiveData<Boolean>()
 
-    open fun init(view: V) {}
-
-    protected fun showLoadingDialog() {
-        _loadingDialogVisible.value = true
+    @CallSuper
+    open fun init(view: V) {
+        view.observe(loadingDialogVisible) {
+            if (it) showLoadingDialog() else hideLoadingDialog()
+        }
     }
 
-    protected fun hideLoadingDialog() {
-        _loadingDialogVisible.value = false
+    protected fun <T> V.observe(liveData: LiveData<T>, observer: View.(T) -> Unit) {
+        observe(liveData, Observer { it?.let { observer(it) } })
     }
 }

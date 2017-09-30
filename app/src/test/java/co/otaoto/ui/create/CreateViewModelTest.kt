@@ -1,55 +1,56 @@
 package co.otaoto.ui.create
 
-import android.arch.core.executor.testing.InstantTaskExecutorRule
 import co.otaoto.api.MockApi
+import co.otaoto.ui.base.BaseViewModelTest
+import co.otaoto.ui.base.MockView
 import kotlinx.coroutines.experimental.runBlocking
 import org.junit.Before
-import org.junit.Rule
 import org.junit.Test
-import org.mockito.Mock
+import org.mockito.ArgumentMatchers.anyString
 import org.mockito.Mockito.*
-import org.mockito.MockitoAnnotations
+import org.mockito.Spy
 
-class CreateViewModelTest {
-    companion object {
-        val API = MockApi()
-    }
+class CreateViewModelTest : BaseViewModelTest<CreateViewModel, CreateViewModel.View>() {
+    abstract class MockCreateView : MockView(), CreateViewModel.View
 
-    @Rule
-    @JvmField
-    val rule = InstantTaskExecutorRule()
-
-    private lateinit var model: CreateViewModel
-
-    @Mock
-    private lateinit var view: CreateViewModel.View
+    @Spy
+    override lateinit var view: MockCreateView
 
     @Before
     fun setUp() {
-        MockitoAnnotations.initMocks(this)
-        model = CreateViewModel(API)
+        viewModel = CreateViewModel(API)
+        viewModel.init(view)
     }
 
     @Test
     fun init_performPasswordVisibleHack_onlyFirstTime() {
-        model.init(view)
-        model.init(view)
-        model.init(view)
+        viewModel.init(view)
+        viewModel.init(view)
 
         verify(view, times(1)).performPasswordVisibleHack()
     }
 
     @Test
     fun submit_moveToConfirm_ifSuccess() = runBlocking {
-        model.submit(view, MockApi.SECRET)
+        viewModel.submit(view, MockApi.SECRET)
 
-        verify(view).moveToConfirmScreen(anyString(), anyString(), anyString())
+        with(inOrder(view)) {
+            verify(view).showLoadingDialog()
+            verify(view).hideLoadingDialog()
+            verify(view).moveToConfirmScreen(anyString(), anyString(), anyString())
+            verifyNoMoreInteractions()
+        }
     }
 
     @Test
     fun submit_showError_ifFailure() = runBlocking {
-        model.submit(view, MockApi.ERROR)
+        viewModel.submit(view, MockApi.ERROR)
 
-        verify(view).showError()
+        with(inOrder(view)) {
+            verify(view).showLoadingDialog()
+            verify(view).hideLoadingDialog()
+            verify(view).showError()
+            verifyNoMoreInteractions()
+        }
     }
 }

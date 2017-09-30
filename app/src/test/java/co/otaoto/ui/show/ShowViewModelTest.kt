@@ -1,30 +1,21 @@
 package co.otaoto.ui.show
 
-import android.arch.core.executor.testing.InstantTaskExecutorRule
 import co.otaoto.api.MockApi
+import co.otaoto.ui.base.BaseViewModelTest
+import co.otaoto.ui.base.MockView
 import kotlinx.coroutines.experimental.runBlocking
 import org.junit.Before
-import org.junit.Rule
 import org.junit.Test
-import org.mockito.Mock
+import org.mockito.Mockito.inOrder
 import org.mockito.Mockito.verify
 import org.mockito.MockitoAnnotations
+import org.mockito.Spy
 
-class ShowViewModelTest {
-    companion object {
-        const val SLUG = "three-word-slug"
-        const val KEY = "1234567890ABCDEF"
-        val API = MockApi()
-    }
+class ShowViewModelTest : BaseViewModelTest<ShowViewModel, ShowViewModel.View>() {
+    abstract class MockShowView : MockView(), ShowViewModel.View
 
-    private lateinit var model: ShowViewModel
-
-    @Mock
-    private lateinit var view: ShowViewModel.View
-
-    @Rule
-    @JvmField
-    val rule = InstantTaskExecutorRule()
+    @Spy
+    override lateinit var view: MockShowView
 
     @Before
     fun setUp() {
@@ -34,7 +25,6 @@ class ShowViewModelTest {
     @Test
     fun init_rendersGate_ifPathGate() {
         setupDefaultModel("gate")
-        model.init(view)
 
         verify(view).renderGate()
     }
@@ -42,7 +32,6 @@ class ShowViewModelTest {
     @Test
     fun init_rendersGate_ifPathShow() {
         setupDefaultModel("show")
-        model.init(view)
 
         verify(view).renderGate()
     }
@@ -50,7 +39,6 @@ class ShowViewModelTest {
     @Test
     fun init_rendersGone_ifPathGone() {
         setupDefaultModel("gone")
-        model.init(view)
 
         verify(view).renderGone()
     }
@@ -58,7 +46,6 @@ class ShowViewModelTest {
     @Test
     fun init_rendersGone_ifPathArbitrary() {
         setupDefaultModel("lol")
-        model.init(view)
 
         verify(view).renderGone()
     }
@@ -66,8 +53,8 @@ class ShowViewModelTest {
     @Test
     fun init_rendersGone_ifPathShort() {
         val pathSegments = listOf("gate")
-        model = ShowViewModel(API, pathSegments)
-        model.init(view)
+        viewModel = ShowViewModel(API, pathSegments)
+        viewModel.init(view)
 
         verify(view).renderGone()
     }
@@ -75,42 +62,52 @@ class ShowViewModelTest {
     @Test
     fun init_rendersGone_ifPathLong() {
         val pathSegments = listOf("gate", "foo", "bar", "baz")
-        model = ShowViewModel(API, pathSegments)
-        model.init(view)
+        viewModel = ShowViewModel(API, pathSegments)
+        viewModel.init(view)
 
         verify(view).renderGone()
     }
 
     @Test
-    fun clickReveal_showsSecret_ifSuccess() {
-        runBlocking {
-            setupDefaultModel("gate")
-            model.clickReveal(view)
+    fun clickReveal_showsSecret_ifSuccess() = runBlocking {
+        setupDefaultModel("gate")
+        viewModel.clickReveal(view)
 
-            verify(view).renderShow()
+        with(inOrder(view)) {
+            verify(view).showLoadingDialog()
+            verify(view).hideLoadingDialog()
             verify(view).showSecret(MockApi.SECRET)
+            verify(view).renderShow()
+            verifyNoMoreInteractions()
         }
     }
 
     @Test
-    fun clickReveal_showsSecret_ifFailure() = runBlocking {
+    fun clickReveal_showsGone_ifFailure() = runBlocking {
         val pathSegments = listOf("gate", MockApi.ERROR, KEY)
-        model = ShowViewModel(API, pathSegments)
-        model.clickReveal(view)
+        viewModel = ShowViewModel(API, pathSegments)
+        viewModel.init(view)
+        viewModel.clickReveal(view)
 
-        verify(view).renderGone()
+        with(inOrder(view)) {
+            verify(view).showLoadingDialog()
+            verify(view).hideLoadingDialog()
+            verify(view).renderGone()
+            verifyNoMoreInteractions()
+        }
     }
 
     @Test
     fun clickAnother_movesToSecret() {
         setupDefaultModel("gate")
-        model.clickCreateAnother(view)
+        viewModel.clickCreateAnother(view)
 
         verify(view).moveToCreateScreen()
     }
 
     private fun setupDefaultModel(path: String) {
         val pathSegments = listOf(path, SLUG, KEY)
-        model = ShowViewModel(API, pathSegments)
+        viewModel = ShowViewModel(API, pathSegments)
+        viewModel.init(view)
     }
 }

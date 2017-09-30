@@ -1,6 +1,7 @@
 package co.otaoto.ui.base
 
 import android.app.Dialog
+import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle
@@ -10,8 +11,7 @@ import android.widget.ProgressBar
 import butterknife.ButterKnife
 import dagger.android.AndroidInjection
 
-abstract class BaseActivity<VM : BaseViewModel<V>, in V : BaseViewModel.View> : AppCompatActivity() {
-
+abstract class BaseActivity<VM : BaseViewModel<V>, in V : BaseViewModel.View> : AppCompatActivity(), BaseViewModel.View {
     protected abstract val viewModelFactory: BaseViewModel.Factory<VM>
     protected abstract val viewModelClass: Class<VM>
     protected val viewModel: VM by lazy(LazyThreadSafetyMode.NONE) { ViewModelProviders.of(this, viewModelFactory)[viewModelClass] }
@@ -28,12 +28,13 @@ abstract class BaseActivity<VM : BaseViewModel<V>, in V : BaseViewModel.View> : 
         ButterKnife.bind(this)
         @Suppress("UNCHECKED_CAST")
         viewModel.init(this as V)
-        viewModel.loadingDialogVisible.observe(this, Observer {
-            if (it == true) showLoadingDialog() else hideLoadingDialog()
-        })
     }
 
-    private fun showLoadingDialog() {
+    override fun <T> observe(liveData: LiveData<T>, observer: Observer<T>) {
+        liveData.observe(this, observer)
+    }
+
+    override fun showLoadingDialog() {
         val dialog = Dialog(this).apply {
             setContentView(ProgressBar(this@BaseActivity))
         }
@@ -42,7 +43,7 @@ abstract class BaseActivity<VM : BaseViewModel<V>, in V : BaseViewModel.View> : 
         loadingDialog = dialog
     }
 
-    private fun hideLoadingDialog() {
+    override fun hideLoadingDialog() {
         loadingDialog?.dismiss()
         loadingDialog = null
     }
