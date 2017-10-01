@@ -11,14 +11,14 @@ import dagger.android.ContributesAndroidInjector
 
 @Module abstract class ActivityBindingModule {
     @ActivityScoped
-    @ContributesAndroidInjector(modules = arrayOf(CreateModule::class))
+    @ContributesAndroidInjector(modules = [CreateModule::class])
     abstract fun createActivity(): CreateActivity
 
     @ActivityScoped
-    @ContributesAndroidInjector(modules = arrayOf(ConfirmModule::class))
+    @ContributesAndroidInjector(modules = [ConfirmModule::class])
     abstract fun confirmActivity(): ConfirmActivity
 
     @ActivityScoped
-    @ContributesAndroidInjector(modules = arrayOf(ShowModule::class))
+    @ContributesAndroidInjector(modules = [ShowModule::class])
     abstract fun showActivity(): ShowActivity
 }

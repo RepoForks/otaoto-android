@@ -44,7 +44,7 @@ class CreateActivity : BaseActivity<CreateViewModel, CreateViewModel.View>(), Cr
     }
 
     @OnClick(R.id.create_submit_button)
-    internal fun onSubmitClick() {
+    protected fun onSubmitClick() {
         launch(UI) {
             val text = inputTextView.text ?: ""
             viewModel.submit(text.toString())

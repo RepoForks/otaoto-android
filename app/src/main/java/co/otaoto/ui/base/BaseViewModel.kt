@@ -26,7 +26,6 @@ abstract class BaseViewModel<V : BaseViewModel.View> : ViewModel() {
         }
     }
 
-    protected fun <T> V.observe(liveData: LiveData<T>, observer: V.(T) -> Unit) {
-        observe(liveData, Observer { it?.let { observer(it) } })
-    }
+    protected fun <T> V.observe(liveData: LiveData<T>, observer: V.(T) -> Unit) =
+            observe(liveData, Observer { it?.let { observer(it) } })
 }

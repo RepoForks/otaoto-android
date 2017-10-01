@@ -19,12 +19,11 @@ import javax.inject.Inject
 
 class ConfirmActivity : BaseActivity<ConfirmViewModel, ConfirmViewModel.View>(), ConfirmViewModel.View {
     companion object {
-        fun newIntent(context: Context, secret: String, slug: String, key: String): Intent {
-            return Intent(context, ConfirmActivity::class.java)
-                    .putExtra(PARAM_SECRET, secret)
-                    .putExtra(PARAM_SLUG, slug)
-                    .putExtra(PARAM_KEY, key)
-        }
+        fun newIntent(context: Context, secret: String, slug: String, key: String): Intent =
+                Intent(context, ConfirmActivity::class.java)
+                        .putExtra(PARAM_SECRET, secret)
+                        .putExtra(PARAM_SLUG, slug)
+                        .putExtra(PARAM_KEY, key)
     }
 
     @Inject
@@ -37,13 +36,9 @@ class ConfirmActivity : BaseActivity<ConfirmViewModel, ConfirmViewModel.View>(),
 
     override val layoutRes: Int get() = R.layout.activity_confirm
 
-    override fun showSecret() {
-        animateSecretVisibility(View.VISIBLE)
-    }
+    override fun showSecret() = animateSecretVisibility(View.VISIBLE)
 
-    override fun hideSecret() {
-        animateSecretVisibility(View.GONE)
-    }
+    override fun hideSecret() = animateSecretVisibility(View.GONE)
 
     private fun animateSecretVisibility(visibility: Int) {
         secretTextView.post {
@@ -74,17 +69,11 @@ class ConfirmActivity : BaseActivity<ConfirmViewModel, ConfirmViewModel.View>(),
     }
 
     @OnClick(R.id.confirm_link_text)
-    internal fun onLinkClick() {
-        viewModel.clickLink()
-    }
+    protected fun onLinkClick() = viewModel.clickLink()
 
     @OnCheckedChanged(R.id.confirm_show_secret_toggle)
-    internal fun onShowSecretCheckedChanged(checked: Boolean) {
-        viewModel.setSecretVisible(checked)
-    }
+    protected fun onShowSecretCheckedChanged(checked: Boolean) = viewModel.setSecretVisible(checked)
 
     @OnClick(R.id.confirm_create_another_button)
-    internal fun onCreateAnotherClick() {
-        viewModel.clickCreateAnother()
-    }
+    protected fun onCreateAnotherClick() = viewModel.clickCreateAnother()
 }

@@ -18,7 +18,6 @@
     </string>
     <string name="confirm_show_button">Show Secret</string>
     <string name="confirm_hide_button">Hide Secret</string>
-    <string name="show_title">Your Secret</string>
     <string name="show_create_prompt">Have something you want to share?</string>
     <string name="show_create_button">Share your secret</string>
     <string name="label_share_url">Share URL</string>

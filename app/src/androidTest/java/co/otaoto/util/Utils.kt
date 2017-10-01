@@ -20,13 +20,9 @@ import org.hamcrest.TypeSafeMatcher
 
 class OrientationAction private constructor(private val orientation: Int) : ViewAction {
 
-    override fun getConstraints(): Matcher<View> {
-        return any(View::class.java)
-    }
+    override fun getConstraints(): Matcher<View> = any(View::class.java)
 
-    override fun getDescription(): String {
-        return "change orientation to " + orientation
-    }
+    override fun getDescription(): String = "change orientation to $orientation"
 
     override fun perform(uiController: UiController, view: View) {
         uiController.loopMainThreadUntilIdle()
@@ -41,13 +37,9 @@ class OrientationAction private constructor(private val orientation: Int) : View
 
     companion object {
 
-        fun landscapeRotation(): ViewAction {
-            return OrientationAction(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE)
-        }
+        fun landscapeRotation(): ViewAction = OrientationAction(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE)
 
-        fun portraitRotation(): ViewAction {
-            return OrientationAction(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT)
-        }
+        fun portraitRotation(): ViewAction = OrientationAction(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT)
     }
 }
 

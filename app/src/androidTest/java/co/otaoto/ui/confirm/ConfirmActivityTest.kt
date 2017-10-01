@@ -1,6 +1,5 @@
 package co.otaoto.ui.confirm
 
-import android.content.Intent
 import android.support.test.InstrumentationRegistry
 import android.support.test.espresso.Espresso.onView
 import android.support.test.espresso.action.ViewActions.click
@@ -25,9 +24,7 @@ class ConfirmActivityTest {
     @Rule
     @JvmField
     val activityTestRule = object : ActivityTestRule<ConfirmActivity>(ConfirmActivity::class.java) {
-        override fun getActivityIntent(): Intent {
-            return ConfirmActivity.newIntent(InstrumentationRegistry.getTargetContext(), SECRET, SLUG, KEY)
-        }
+        override fun getActivityIntent() = ConfirmActivity.newIntent(InstrumentationRegistry.getTargetContext(), SECRET, SLUG, KEY)
     }
 
     @Test

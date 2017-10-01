@@ -30,9 +30,7 @@ abstract class BaseActivity<VM : BaseViewModel<V>, V : BaseViewModel.View> : App
         viewModel.init(this as V)
     }
 
-    override fun <T> observe(liveData: LiveData<T>, observer: Observer<T>) {
-        liveData.observe(this, observer)
-    }
+    override fun <T> observe(liveData: LiveData<T>, observer: Observer<T>) = liveData.observe(this, observer)
 
     override fun showLoadingDialog() {
         loadingDialog?.let { return }
