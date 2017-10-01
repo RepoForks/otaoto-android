@@ -1,9 +1,6 @@
 package co.otaoto.ui.confirm
 
 import co.otaoto.di.ActivityScoped
-import co.otaoto.ui.confirm.ConfirmViewModel.Companion.PARAM_KEY
-import co.otaoto.ui.confirm.ConfirmViewModel.Companion.PARAM_SECRET
-import co.otaoto.ui.confirm.ConfirmViewModel.Companion.PARAM_SLUG
 import dagger.Module
 import dagger.Provides
 import javax.inject.Named

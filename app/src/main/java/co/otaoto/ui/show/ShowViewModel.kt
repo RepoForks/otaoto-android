@@ -7,15 +7,7 @@ import co.otaoto.api.ShowSuccess
 import co.otaoto.ui.base.BaseViewModel
 import javax.inject.Inject
 
-class ShowViewModel(private val api: Api, pathSegments: List<String>) : BaseViewModel<ShowViewModel.View>() {
-    interface View : BaseViewModel.View {
-        fun renderGate()
-        fun renderShow()
-        fun renderGone()
-        fun showSecret(secret: String)
-        fun moveToCreateScreen()
-    }
-
+class ShowViewModel(private val api: Api, pathSegments: List<String>) : BaseViewModel<ShowView>(), ShowPresenter {
     class Factory @Inject constructor() : BaseViewModel.Factory<ShowViewModel>() {
         @Inject
         protected lateinit var api: Api
@@ -26,10 +18,10 @@ class ShowViewModel(private val api: Api, pathSegments: List<String>) : BaseView
         override fun create(): ShowViewModel = ShowViewModel(api, pathSegments)
     }
 
-    enum class State(val path: String, val render: View.() -> Unit) {
-        GATE("gate", View::renderGate),
-        SHOW("show", View::renderShow),
-        GONE("gone", View::renderGone);
+    private enum class State(val path: String, val render: ShowView.() -> Unit) {
+        GATE("gate", ShowView::renderGate),
+        SHOW("show", ShowView::renderShow),
+        GONE("gone", ShowView::renderGone);
     }
 
     private val slug: String?
@@ -52,18 +44,18 @@ class ShowViewModel(private val api: Api, pathSegments: List<String>) : BaseView
         }
     }
 
-    override fun init(view: View) {
+    override fun init(view: ShowView) {
         super.init(view)
         view.observe(state) { it?.render?.invoke(this) }
         view.observe(secret) { showSecret(it ?: "") }
         view.observe(moveToCreateTrigger) { moveToCreateScreen() }
     }
 
-    internal fun clickCreateAnother() {
+    override fun clickCreateAnother() {
         moveToCreateTrigger.value = Unit
     }
 
-    internal suspend fun clickReveal() {
+    override suspend fun clickReveal() {
         if (state.value != State.GATE || slug == null || key == null) return
         loadingDialogVisible.value = true
         val result = api.show(slug, key)

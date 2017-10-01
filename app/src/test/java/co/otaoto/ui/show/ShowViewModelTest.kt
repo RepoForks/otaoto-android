@@ -11,8 +11,8 @@ import org.mockito.Mockito.verify
 import org.mockito.MockitoAnnotations
 import org.mockito.Spy
 
-class ShowViewModelTest : BaseViewModelTest<ShowViewModel, ShowViewModel.View>() {
-    abstract class MockShowView : MockView(), ShowViewModel.View
+class ShowViewModelTest : BaseViewModelTest<ShowViewModel, ShowView>() {
+    abstract class MockShowView : MockView(), ShowView
 
     @Spy
     override lateinit var view: MockShowView

@@ -11,13 +11,10 @@ import butterknife.OnClick
 import co.otaoto.R
 import co.otaoto.ui.base.BaseActivity
 import co.otaoto.ui.bindView
-import co.otaoto.ui.confirm.ConfirmViewModel.Companion.PARAM_KEY
-import co.otaoto.ui.confirm.ConfirmViewModel.Companion.PARAM_SECRET
-import co.otaoto.ui.confirm.ConfirmViewModel.Companion.PARAM_SLUG
 import co.otaoto.ui.create.CreateActivity
 import javax.inject.Inject
 
-class ConfirmActivity : BaseActivity<ConfirmViewModel, ConfirmViewModel.View>(), ConfirmViewModel.View {
+class ConfirmActivity : BaseActivity<ConfirmViewModel, ConfirmPresenter, ConfirmView>(), ConfirmView {
     companion object {
         fun newIntent(context: Context, secret: String, slug: String, key: String): Intent =
                 Intent(context, ConfirmActivity::class.java)
@@ -69,11 +66,11 @@ class ConfirmActivity : BaseActivity<ConfirmViewModel, ConfirmViewModel.View>(),
     }
 
     @OnClick(R.id.confirm_link_text)
-    protected fun onLinkClick() = viewModel.clickLink()
+    protected fun onLinkClick() = presenter.clickLink()
 
     @OnCheckedChanged(R.id.confirm_show_secret_toggle)
-    protected fun onShowSecretCheckedChanged(checked: Boolean) = viewModel.setSecretVisible(checked)
+    protected fun onShowSecretCheckedChanged(checked: Boolean) = presenter.setSecretVisible(checked)
 
     @OnClick(R.id.confirm_create_another_button)
-    protected fun onCreateAnotherClick() = viewModel.clickCreateAnother()
+    protected fun onCreateAnotherClick() = presenter.clickCreateAnother()
 }

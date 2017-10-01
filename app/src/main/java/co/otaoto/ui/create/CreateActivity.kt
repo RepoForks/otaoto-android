@@ -15,7 +15,7 @@ import kotlinx.coroutines.experimental.android.UI
 import kotlinx.coroutines.experimental.launch
 import javax.inject.Inject
 
-class CreateActivity : BaseActivity<CreateViewModel, CreateViewModel.View>(), CreateViewModel.View {
+class CreateActivity : BaseActivity<CreateViewModel, CreatePresenter, CreateView>(), CreateView {
     companion object {
         fun newIntent(context: Context) = Intent(context, CreateActivity::class.java)
     }
@@ -47,7 +47,7 @@ class CreateActivity : BaseActivity<CreateViewModel, CreateViewModel.View>(), Cr
     protected fun onSubmitClick() {
         launch(UI) {
             val text = inputTextView.text ?: ""
-            viewModel.submit(text.toString())
+            presenter.submit(text.toString())
         }
     }
 }

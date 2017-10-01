@@ -5,16 +5,9 @@ import co.otaoto.api.Api
 import co.otaoto.api.CreateError
 import co.otaoto.api.CreateSuccess
 import co.otaoto.ui.base.BaseViewModel
-import co.otaoto.ui.create.CreateViewModel.View
 import javax.inject.Inject
 
-class CreateViewModel(val api: Api) : BaseViewModel<View>() {
-    interface View : BaseViewModel.View {
-        fun moveToConfirmScreen(secret: String, slug: String, key: String)
-        fun showError()
-        fun performPasswordVisibleHack()
-    }
-
+class CreateViewModel(val api: Api) : BaseViewModel<CreateView>(), CreatePresenter {
     class Factory @Inject constructor() : BaseViewModel.Factory<CreateViewModel>() {
         @Inject
         protected lateinit var api: Api
@@ -27,7 +20,7 @@ class CreateViewModel(val api: Api) : BaseViewModel<View>() {
     private val moveToConfirmTrigger = MutableLiveData<SecretData>()
     private val errorTrigger = MutableLiveData<Unit>()
 
-    override fun init(view: View) {
+    override fun init(view: CreateView) {
         super.init(view)
         if (!hasPerformedPasswordVisibleHack) {
             hasPerformedPasswordVisibleHack = true
@@ -41,7 +34,7 @@ class CreateViewModel(val api: Api) : BaseViewModel<View>() {
         }
     }
 
-    internal suspend fun submit(secret: String) {
+    override suspend fun submit(secret: String) {
         loadingDialogVisible.value = true
         val result = api.create(secret)
         loadingDialogVisible.value = false

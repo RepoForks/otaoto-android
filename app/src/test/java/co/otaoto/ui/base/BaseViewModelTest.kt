@@ -6,7 +6,7 @@ import org.junit.Before
 import org.junit.Rule
 import org.mockito.MockitoAnnotations
 
-abstract class BaseViewModelTest<VM : BaseViewModel<V>, V : BaseViewModel.View> {
+abstract class BaseViewModelTest<VM : BaseViewModel<V>, V : BaseView> {
     companion object {
         val API = MockApi()
         const val SECRET = "That's my secret, Captain"

@@ -3,13 +3,7 @@ package co.otaoto.ui.base
 import android.arch.lifecycle.*
 import android.support.annotation.CallSuper
 
-abstract class BaseViewModel<V : BaseViewModel.View> : ViewModel() {
-    interface View {
-        fun <T> observe(liveData: LiveData<T>, observer: Observer<T>)
-        fun showLoadingDialog()
-        fun hideLoadingDialog()
-    }
-
+abstract class BaseViewModel<V : BaseView> : ViewModel(), BasePresenter<V> {
     abstract class Factory<out VM : BaseViewModel<*>> : ViewModelProvider.Factory {
         @Suppress("UNCHECKED_CAST")
         override fun <T : ViewModel?> create(modelClass: Class<T>?): T = create() as T
@@ -20,7 +14,7 @@ abstract class BaseViewModel<V : BaseViewModel.View> : ViewModel() {
     protected val loadingDialogVisible = MutableLiveData<Boolean>()
 
     @CallSuper
-    open fun init(view: V) {
+    override fun init(view: V) {
         view.observe(loadingDialogVisible) { visible: Boolean? ->
             if (visible == true) showLoadingDialog() else hideLoadingDialog()
         }
