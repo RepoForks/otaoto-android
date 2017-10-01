@@ -32,7 +32,7 @@ class CreateViewModelTest : BaseViewModelTest<CreateViewModel, CreateViewModel.V
 
     @Test
     fun submit_moveToConfirm_ifSuccess() = runBlocking {
-        viewModel.submit(view, MockApi.SECRET)
+        viewModel.submit(MockApi.SECRET)
 
         with(inOrder(view)) {
             verify(view).showLoadingDialog()
@@ -44,7 +44,7 @@ class CreateViewModelTest : BaseViewModelTest<CreateViewModel, CreateViewModel.V
 
     @Test
     fun submit_showError_ifFailure() = runBlocking {
-        viewModel.submit(view, MockApi.ERROR)
+        viewModel.submit(MockApi.ERROR)
 
         with(inOrder(view)) {
             verify(view).showLoadingDialog()

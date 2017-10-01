@@ -1,5 +1,6 @@
 package co.otaoto.ui.show
 
+import android.arch.lifecycle.MutableLiveData
 import co.otaoto.api.Api
 import co.otaoto.api.ShowError
 import co.otaoto.api.ShowSuccess
@@ -34,55 +35,48 @@ class ShowViewModel(private val api: Api, pathSegments: List<String>) : BaseView
     private val slug: String?
     private val key: String?
 
-    private var state: State
-
-    private var secret: String? = null
+    private val state = MutableLiveData<State>()
+    private val secret = MutableLiveData<String?>()
+    private val moveToCreateTrigger = MutableLiveData<Unit>()
 
     init {
         if (pathSegments.size == 3) {
             slug = pathSegments[1]
             key = pathSegments[2]
             val pathState: State = State.values().find { it.path == pathSegments[0] } ?: State.GONE
-            state = if (pathState == State.SHOW) State.GATE else pathState // Never show on launch
+            state.value = if (pathState == State.SHOW) State.GATE else pathState // Never show on launch
         } else {
             slug = null
             key = null
-            state = State.GONE
+            state.value = State.GONE
         }
     }
 
     override fun init(view: View) {
         super.init(view)
-        view.renderState()
-        if (state == State.SHOW) {
-            secret?.run { view.showSecret(this) }
-        }
+        view.observe(state) { it?.render?.invoke(this) }
+        view.observe(secret) { showSecret(it ?: "") }
+        view.observe(moveToCreateTrigger) { moveToCreateScreen() }
     }
 
-    internal fun clickCreateAnother(view: View) {
-        view.moveToCreateScreen()
+    internal fun clickCreateAnother() {
+        moveToCreateTrigger.value = Unit
     }
 
-    internal suspend fun clickReveal(view: View) {
-        if (state != State.GATE || slug == null || key == null) return
+    internal suspend fun clickReveal() {
+        if (state.value != State.GATE || slug == null || key == null) return
         loadingDialogVisible.value = true
         val result = api.show(slug, key)
         loadingDialogVisible.value = false
         return when (result) {
             is ShowSuccess -> {
-                val secret = result.plainText
-                this.secret = secret
-                view.showSecret(secret)
-                state = State.SHOW
-                view.renderState()
+                secret.value = result.plainText
+                state.value = State.SHOW
             }
             is ShowError -> {
-                secret = null
-                state = State.GONE
-                view.renderState()
+                secret.value = null
+                state.value = State.GONE
             }
         }
     }
-
-    private fun View.renderState() = (state.render)()
 }

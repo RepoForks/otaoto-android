@@ -71,7 +71,7 @@ class ShowViewModelTest : BaseViewModelTest<ShowViewModel, ShowViewModel.View>()
     @Test
     fun clickReveal_showsSecret_ifSuccess() = runBlocking {
         setupDefaultModel("gate")
-        viewModel.clickReveal(view)
+        viewModel.clickReveal()
 
         with(inOrder(view)) {
             verify(view).showLoadingDialog()
@@ -87,7 +87,7 @@ class ShowViewModelTest : BaseViewModelTest<ShowViewModel, ShowViewModel.View>()
         val pathSegments = listOf("gate", MockApi.ERROR, KEY)
         viewModel = ShowViewModel(API, pathSegments)
         viewModel.init(view)
-        viewModel.clickReveal(view)
+        viewModel.clickReveal()
 
         with(inOrder(view)) {
             verify(view).showLoadingDialog()
@@ -100,7 +100,7 @@ class ShowViewModelTest : BaseViewModelTest<ShowViewModel, ShowViewModel.View>()
     @Test
     fun clickAnother_movesToSecret() {
         setupDefaultModel("gate")
-        viewModel.clickCreateAnother(view)
+        viewModel.clickCreateAnother()
 
         verify(view).moveToCreateScreen()
     }

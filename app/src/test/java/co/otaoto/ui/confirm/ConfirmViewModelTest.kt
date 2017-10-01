@@ -26,7 +26,7 @@ class ConfirmViewModelTest : BaseViewModelTest<ConfirmViewModel, ConfirmViewMode
 
     @Test
     fun setSecretVisible_showsSecret_ifTrue() {
-        viewModel.setSecretVisible(view, true)
+        viewModel.setSecretVisible(true)
 
         verify(view).showSecret()
         verify(view).setSecretText(SECRET)
@@ -34,7 +34,7 @@ class ConfirmViewModelTest : BaseViewModelTest<ConfirmViewModel, ConfirmViewMode
 
     @Test
     fun setSecretVisible_hidesSecret_ifFalse() {
-        viewModel.setSecretVisible(view, false)
+        viewModel.setSecretVisible(false)
 
         verify(view).hideSecret()
         verify(view).setSecretText("")
@@ -42,14 +42,14 @@ class ConfirmViewModelTest : BaseViewModelTest<ConfirmViewModel, ConfirmViewMode
 
     @Test
     fun clickLink_sharesUrl() {
-        viewModel.clickLink(view)
+        viewModel.clickLink()
 
         verify(view).shareUrl(URL)
     }
 
     @Test
     fun clickCreateAnother_movesToCreate() {
-        viewModel.clickCreateAnother(view)
+        viewModel.clickCreateAnother()
 
         verify(view).moveToCreateScreen()
     }

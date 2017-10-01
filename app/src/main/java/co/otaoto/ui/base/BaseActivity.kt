@@ -11,7 +11,7 @@ import android.widget.ProgressBar
 import butterknife.ButterKnife
 import dagger.android.AndroidInjection
 
-abstract class BaseActivity<VM : BaseViewModel<V>, in V : BaseViewModel.View> : AppCompatActivity(), BaseViewModel.View {
+abstract class BaseActivity<VM : BaseViewModel<V>, V : BaseViewModel.View> : AppCompatActivity(), BaseViewModel.View {
     protected abstract val viewModelFactory: BaseViewModel.Factory<VM>
     protected abstract val viewModelClass: Class<VM>
     protected val viewModel: VM by lazy(LazyThreadSafetyMode.NONE) { ViewModelProviders.of(this, viewModelFactory)[viewModelClass] }
@@ -35,11 +35,11 @@ abstract class BaseActivity<VM : BaseViewModel<V>, in V : BaseViewModel.View> : 
     }
 
     override fun showLoadingDialog() {
+        loadingDialog?.let { return }
         val dialog = Dialog(this).apply {
             setContentView(ProgressBar(this@BaseActivity))
         }
         dialog.show()
-        loadingDialog?.dismiss()
         loadingDialog = dialog
     }
 

@@ -75,16 +75,16 @@ class ConfirmActivity : BaseActivity<ConfirmViewModel, ConfirmViewModel.View>(),
 
     @OnClick(R.id.confirm_link_text)
     internal fun onLinkClick() {
-        viewModel.clickLink(this)
+        viewModel.clickLink()
     }
 
     @OnCheckedChanged(R.id.confirm_show_secret_toggle)
     internal fun onShowSecretCheckedChanged(checked: Boolean) {
-        viewModel.setSecretVisible(this, checked)
+        viewModel.setSecretVisible(checked)
     }
 
     @OnClick(R.id.confirm_create_another_button)
     internal fun onCreateAnotherClick() {
-        viewModel.clickCreateAnother(this)
+        viewModel.clickCreateAnother()
     }
 }

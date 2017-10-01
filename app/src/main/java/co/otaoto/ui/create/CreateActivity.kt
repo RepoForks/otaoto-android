@@ -47,7 +47,7 @@ class CreateActivity : BaseActivity<CreateViewModel, CreateViewModel.View>(), Cr
     internal fun onSubmitClick() {
         launch(UI) {
             val text = inputTextView.text ?: ""
-            viewModel.submit(this@CreateActivity, text.toString())
+            viewModel.submit(text.toString())
         }
     }
 }

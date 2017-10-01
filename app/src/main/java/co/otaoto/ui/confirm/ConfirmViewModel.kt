@@ -1,10 +1,12 @@
 package co.otaoto.ui.confirm
 
+import android.arch.lifecycle.MutableLiveData
 import co.otaoto.ui.base.BaseViewModel
+import co.otaoto.ui.confirm.ConfirmViewModel.View
 import javax.inject.Inject
 import javax.inject.Named
 
-class ConfirmViewModel(private val secret: String, slug: String, key: String) : BaseViewModel<ConfirmViewModel.View>() {
+class ConfirmViewModel(private val secret: String, slug: String, key: String) : BaseViewModel<View>() {
     companion object {
         internal const val PARAM_SECRET = "secret"
         internal const val PARAM_SLUG = "slug"
@@ -38,26 +40,39 @@ class ConfirmViewModel(private val secret: String, slug: String, key: String) : 
 
     private val url: String = "https://otaoto.co/gate/$slug/$key"
 
+    private val secretVisible = MutableLiveData<Boolean>()
+    private val shareTrigger = MutableLiveData<Unit>()
+    private val moveToCreateTrigger = MutableLiveData<Unit>()
+
     override fun init(view: View) {
         super.init(view)
         view.setLinkUrl(url)
-    }
-
-    internal fun setSecretVisible(view: View, visible: Boolean) = with(view) {
-        if (visible) {
-            setSecretText(secret)
-            showSecret()
-        } else {
-            hideSecret()
-            setSecretText("")
+        view.observe(secretVisible) { visible: Boolean? ->
+            if (visible == true) {
+                setSecretText(secret)
+                showSecret()
+            } else {
+                hideSecret()
+                setSecretText("")
+            }
+        }
+        view.observe(shareTrigger) {
+            shareUrl(url)
+        }
+        view.observe(moveToCreateTrigger) {
+            moveToCreateScreen()
         }
     }
 
-    internal fun clickLink(view: View) {
-        view.shareUrl(url)
+    internal fun setSecretVisible(visible: Boolean) {
+        secretVisible.value = visible
     }
 
-    internal fun clickCreateAnother(view: View) {
-        view.moveToCreateScreen()
+    internal fun clickLink() {
+        shareTrigger.value = Unit
+    }
+
+    internal fun clickCreateAnother() {
+        moveToCreateTrigger.value = Unit
     }
 }

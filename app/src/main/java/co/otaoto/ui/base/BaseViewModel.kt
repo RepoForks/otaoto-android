@@ -3,7 +3,7 @@ package co.otaoto.ui.base
 import android.arch.lifecycle.*
 import android.support.annotation.CallSuper
 
-abstract class BaseViewModel<in V : BaseViewModel.View> : ViewModel() {
+abstract class BaseViewModel<V : BaseViewModel.View> : ViewModel() {
     interface View {
         fun <T> observe(liveData: LiveData<T>, observer: Observer<T>)
         fun showLoadingDialog()
@@ -21,12 +21,12 @@ abstract class BaseViewModel<in V : BaseViewModel.View> : ViewModel() {
 
     @CallSuper
     open fun init(view: V) {
-        view.observe(loadingDialogVisible) {
-            if (it) showLoadingDialog() else hideLoadingDialog()
+        view.observe(loadingDialogVisible) { visible: Boolean? ->
+            if (visible == true) showLoadingDialog() else hideLoadingDialog()
         }
     }
 
-    protected fun <T> V.observe(liveData: LiveData<T>, observer: View.(T) -> Unit) {
+    protected fun <T> V.observe(liveData: LiveData<T>, observer: V.(T) -> Unit) {
         observe(liveData, Observer { it?.let { observer(it) } })
     }
 }

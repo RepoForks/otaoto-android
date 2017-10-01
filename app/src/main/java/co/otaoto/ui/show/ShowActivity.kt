@@ -59,12 +59,12 @@ class ShowActivity : BaseActivity<ShowViewModel, ShowViewModel.View>(), ShowView
     @OnClick(R.id.show_reveal_button)
     internal fun onRevealClick() {
         launch(UI) {
-            viewModel.clickReveal(this@ShowActivity)
+            viewModel.clickReveal()
         }
     }
 
     @OnClick(R.id.show_create_button)
     internal fun onCreateClick() {
-        viewModel.clickCreateAnother(this)
+        viewModel.clickCreateAnother()
     }
 }
