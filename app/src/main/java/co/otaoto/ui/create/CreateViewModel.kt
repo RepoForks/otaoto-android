@@ -15,7 +15,7 @@ class CreateViewModel(val api: Api) : BaseViewModel<CreateViewModel.View>() {
 
     class Factory @Inject constructor() : BaseViewModel.Factory<CreateViewModel>() {
         @Inject
-        internal lateinit var api: Api
+        protected lateinit var api: Api
 
         override fun create(): CreateViewModel = CreateViewModel(api)
     }

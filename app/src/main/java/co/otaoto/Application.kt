@@ -1,7 +1,6 @@
 package co.otaoto
 
 import android.app.Activity
-import co.otaoto.api.Api
 import co.otaoto.di.DaggerAppComponent
 import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
@@ -11,10 +10,7 @@ import javax.inject.Inject
 class Application : android.app.Application(), HasActivityInjector {
 
     @Inject
-    internal lateinit var activityInjector: DispatchingAndroidInjector<Activity>
-
-    @Inject
-    lateinit var api: Api
+    protected lateinit var activityInjector: DispatchingAndroidInjector<Activity>
 
     override fun onCreate() {
         super.onCreate()

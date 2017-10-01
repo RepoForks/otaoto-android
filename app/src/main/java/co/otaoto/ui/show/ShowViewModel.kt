@@ -17,10 +17,10 @@ class ShowViewModel(private val api: Api, pathSegments: List<String>) : BaseView
 
     class Factory @Inject constructor() : BaseViewModel.Factory<ShowViewModel>() {
         @Inject
-        internal lateinit var api: Api
+        protected lateinit var api: Api
 
         @Inject
-        internal lateinit var pathSegments: List<String>
+        protected lateinit var pathSegments: List<String>
 
         override fun create(): ShowViewModel = ShowViewModel(api, pathSegments)
     }

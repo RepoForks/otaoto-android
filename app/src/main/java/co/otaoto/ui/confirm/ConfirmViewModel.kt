@@ -23,15 +23,15 @@ class ConfirmViewModel(private val secret: String, slug: String, key: String) : 
     class Factory @Inject constructor() : BaseViewModel.Factory<ConfirmViewModel>() {
         @Inject
         @field:Named(PARAM_SECRET)
-        internal lateinit var secret: String
+        protected lateinit var secret: String
 
         @Inject
         @field:Named(PARAM_SLUG)
-        internal lateinit var slug: String
+        protected lateinit var slug: String
 
         @Inject
         @field:Named(PARAM_KEY)
-        internal lateinit var key: String
+        protected lateinit var key: String
 
         override fun create(): ConfirmViewModel = ConfirmViewModel(secret, slug, key)
     }
