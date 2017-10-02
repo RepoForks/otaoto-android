@@ -76,6 +76,7 @@ dependencies {
 
     androidTestImplementation "com.android.support.test.espresso:espresso-core:$espressoVersion"
     androidTestImplementation "com.android.support.test.espresso:espresso-contrib:$espressoVersion"
+    androidTestImplementation "com.android.support.test.espresso:espresso-intents:$espressoVersion"
     androidTestImplementation "com.android.support.test:runner:1.0.1"
     androidTestImplementation "android.arch.core:core-testing:$archVersion"
 }
