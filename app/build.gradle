@@ -4,7 +4,7 @@ apply plugin: 'kotlin-kapt'
 
 android {
     compileSdkVersion 26
-    buildToolsVersion "26.0.1"
+    buildToolsVersion "26.0.2"
     defaultConfig {
         applicationId "co.otaoto"
         minSdkVersion 15
@@ -31,7 +31,7 @@ android {
 }
 
 ext {
-    archVersion = "1.0.0-beta1"
+    archVersion = "1.0.0-beta2"
     butterknifeVersion = "8.8.1"
     coroutineVersion = "0.18"
     daggerVersion = "2.11"
