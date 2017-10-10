@@ -24,21 +24,30 @@
         app:layout_constraintTop_toTopOf="parent"
         />
 
-    <TextView
-        android:id="@+id/show_secret_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+    <ScrollView
         android:layout_marginTop="8dp"
-        android:gravity="center_horizontal"
-        android:textAlignment="center"
-        android:visibility="gone"
-        android:textIsSelectable="true"
+        android:layout_marginBottom="8dp"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@+id/show_create_prompt_text"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@id/show_reveal_button"
-        tools:text="Ssh! Don't tell anyone!"
-        tools:visibility="visible"
-        />
+        >
+
+        <TextView
+            android:id="@+id/show_secret_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:gravity="center_horizontal"
+            android:textAlignment="center"
+            android:textIsSelectable="true"
+            android:visibility="gone"
+            tools:text="Ssh! Don't tell anyone!"
+            tools:visibility="visible"
+            />
+    </ScrollView>
 
     <TextView
         android:id="@+id/show_create_prompt_text"
@@ -48,9 +57,9 @@
         android:gravity="center_horizontal"
         android:text="@string/show_create_prompt"
         android:textAlignment="center"
+        app:layout_constraintBottom_toTopOf="@+id/show_create_button"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintBottom_toTopOf="@+id/show_create_button"
         />
 
     <Button
