@@ -15,7 +15,7 @@ import kotlinx.coroutines.experimental.android.UI
 import kotlinx.coroutines.experimental.launch
 import javax.inject.Inject
 
-class ShowActivity : BaseActivity<ShowViewModel, ShowPresenter, ShowView>(), ShowView {
+class ShowActivity : BaseActivity<ShowViewModel, ShowContract.View>(), ShowContract.View {
 
     @Inject
     override lateinit var viewModelFactory: ShowViewModel.Factory
@@ -59,10 +59,10 @@ class ShowActivity : BaseActivity<ShowViewModel, ShowPresenter, ShowView>(), Sho
     @OnClick(R.id.show_reveal_button)
     protected fun onRevealClick() {
         launch(UI) {
-            presenter.clickReveal()
+            viewModel.clickReveal()
         }
     }
 
     @OnClick(R.id.show_create_button)
-    protected fun onCreateClick() = presenter.clickCreateAnother()
+    protected fun onCreateClick() = viewModel.clickCreateAnother()
 }

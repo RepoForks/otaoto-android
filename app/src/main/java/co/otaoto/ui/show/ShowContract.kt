@@ -1,17 +1,18 @@
 package co.otaoto.ui.show
 
-import co.otaoto.ui.base.BasePresenter
-import co.otaoto.ui.base.BaseView
+import co.otaoto.ui.base.BaseContract
 
-interface ShowView : BaseView {
-    fun renderGate()
-    fun renderShow()
-    fun renderGone()
-    fun showSecret(secret: String)
-    fun moveToCreateScreen()
-}
+interface ShowContract {
+    interface View : BaseContract.View {
+        fun renderGate()
+        fun renderShow()
+        fun renderGone()
+        fun showSecret(secret: String)
+        fun moveToCreateScreen()
+    }
 
-interface ShowPresenter : BasePresenter<ShowView> {
-    suspend fun clickReveal();
-    fun clickCreateAnother()
+    interface ViewModel : BaseContract.ViewModel<View> {
+        suspend fun clickReveal()
+        fun clickCreateAnother()
+    }
 }

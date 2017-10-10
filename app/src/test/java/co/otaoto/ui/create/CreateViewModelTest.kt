@@ -10,8 +10,8 @@ import org.mockito.ArgumentMatchers.anyString
 import org.mockito.Mockito.*
 import org.mockito.Spy
 
-class CreateViewModelTest : BaseViewModelTest<CreateViewModel, CreateView>() {
-    abstract class MockCreateView : MockView(), CreateView
+class CreateViewModelTest : BaseViewModelTest<CreateViewModel, CreateContract.View>() {
+    abstract class MockCreateView : MockView(), CreateContract.View
 
     @Spy
     override lateinit var view: MockCreateView

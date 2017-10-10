@@ -2,10 +2,13 @@ package co.otaoto.ui.confirm
 
 import android.arch.lifecycle.MutableLiveData
 import co.otaoto.ui.base.BaseViewModel
+import co.otaoto.ui.confirm.ConfirmContract.Companion.PARAM_KEY
+import co.otaoto.ui.confirm.ConfirmContract.Companion.PARAM_SECRET
+import co.otaoto.ui.confirm.ConfirmContract.Companion.PARAM_SLUG
 import javax.inject.Inject
 import javax.inject.Named
 
-class ConfirmViewModel(private val secret: String, slug: String, key: String) : BaseViewModel<ConfirmView>(), ConfirmPresenter {
+class ConfirmViewModel(private val secret: String, slug: String, key: String) : BaseViewModel<ConfirmContract.View>(), ConfirmContract.ViewModel {
     class Factory @Inject constructor() : BaseViewModel.Factory<ConfirmViewModel>() {
         @Inject
         @field:Named(PARAM_SECRET)
@@ -28,7 +31,7 @@ class ConfirmViewModel(private val secret: String, slug: String, key: String) : 
     private val shareTrigger = MutableLiveData<Unit>()
     private val moveToCreateTrigger = MutableLiveData<Unit>()
 
-    override fun init(view: ConfirmView) {
+    override fun init(view: ConfirmContract.View) {
         super.init(view)
         view.setLinkUrl(url)
         view.observe(secretVisible) { visible: Boolean? ->

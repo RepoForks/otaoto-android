@@ -7,8 +7,8 @@ import org.junit.Test
 import org.mockito.Mockito.verify
 import org.mockito.Spy
 
-class ConfirmViewModelTest : BaseViewModelTest<ConfirmViewModel, ConfirmView>() {
-    abstract class MockConfirmView : MockView(), ConfirmView
+class ConfirmViewModelTest : BaseViewModelTest<ConfirmViewModel, ConfirmContract.View>() {
+    abstract class MockConfirmView : MockView(), ConfirmContract.View
 
     @Spy
     override lateinit var view: MockConfirmView

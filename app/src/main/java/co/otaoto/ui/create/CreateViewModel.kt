@@ -7,7 +7,7 @@ import co.otaoto.api.CreateSuccess
 import co.otaoto.ui.base.BaseViewModel
 import javax.inject.Inject
 
-class CreateViewModel(val api: Api) : BaseViewModel<CreateView>(), CreatePresenter {
+class CreateViewModel(val api: Api) : BaseViewModel<CreateContract.View>(), CreateContract.ViewModel {
     class Factory @Inject constructor() : BaseViewModel.Factory<CreateViewModel>() {
         @Inject
         protected lateinit var api: Api
@@ -20,7 +20,7 @@ class CreateViewModel(val api: Api) : BaseViewModel<CreateView>(), CreatePresent
     private val moveToConfirmTrigger = MutableLiveData<SecretData>()
     private val errorTrigger = MutableLiveData<Unit>()
 
-    override fun init(view: CreateView) {
+    override fun init(view: CreateContract.View) {
         super.init(view)
         if (!hasPerformedPasswordVisibleHack) {
             hasPerformedPasswordVisibleHack = true

@@ -7,7 +7,7 @@ import co.otaoto.api.ShowSuccess
 import co.otaoto.ui.base.BaseViewModel
 import javax.inject.Inject
 
-class ShowViewModel(private val api: Api, pathSegments: List<String>) : BaseViewModel<ShowView>(), ShowPresenter {
+class ShowViewModel(private val api: Api, pathSegments: List<String>) : BaseViewModel<ShowContract.View>(), ShowContract.ViewModel {
     class Factory @Inject constructor() : BaseViewModel.Factory<ShowViewModel>() {
         @Inject
         protected lateinit var api: Api
@@ -18,10 +18,10 @@ class ShowViewModel(private val api: Api, pathSegments: List<String>) : BaseView
         override fun create(): ShowViewModel = ShowViewModel(api, pathSegments)
     }
 
-    private enum class State(val path: String, val render: ShowView.() -> Unit) {
-        GATE("gate", ShowView::renderGate),
-        SHOW("show", ShowView::renderShow),
-        GONE("gone", ShowView::renderGone);
+    private enum class State(val path: String, val render: ShowContract.View.() -> Unit) {
+        GATE("gate", ShowContract.View::renderGate),
+        SHOW("show", ShowContract.View::renderShow),
+        GONE("gone", ShowContract.View::renderGone);
     }
 
     private val slug: String?
@@ -44,7 +44,7 @@ class ShowViewModel(private val api: Api, pathSegments: List<String>) : BaseView
         }
     }
 
-    override fun init(view: ShowView) {
+    override fun init(view: ShowContract.View) {
         super.init(view)
         view.observe(state) { it?.render?.invoke(this) }
         view.observe(secret) { showSecret(it ?: "") }

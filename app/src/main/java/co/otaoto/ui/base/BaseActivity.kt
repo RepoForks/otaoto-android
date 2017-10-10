@@ -11,16 +11,13 @@ import android.widget.ProgressBar
 import butterknife.ButterKnife
 import dagger.android.AndroidInjection
 
-abstract class BaseActivity<VM : BaseViewModel<V>, out P : BasePresenter<V>, V : BaseView> : AppCompatActivity(), BaseView {
+abstract class BaseActivity<VM : BaseViewModel<V>, V : BaseContract.View> : AppCompatActivity(), BaseContract.View {
     protected abstract val viewModelFactory: BaseViewModel.Factory<VM>
     protected abstract val viewModelClass: Class<VM>
-    private val viewModel: VM by lazy(LazyThreadSafetyMode.NONE) { ViewModelProviders.of(this, viewModelFactory)[viewModelClass] }
-    @Suppress("UNCHECKED_CAST")
-    protected val presenter: P
-        get() = viewModel as P
-
     protected abstract val layoutRes: Int
         @LayoutRes get
+
+    protected val viewModel: VM by lazy(LazyThreadSafetyMode.NONE) { ViewModelProviders.of(this, viewModelFactory)[viewModelClass] }
 
     private var loadingDialog: Dialog? = null
 
@@ -30,7 +27,7 @@ abstract class BaseActivity<VM : BaseViewModel<V>, out P : BasePresenter<V>, V :
         setContentView(layoutRes)
         ButterKnife.bind(this)
         @Suppress("UNCHECKED_CAST")
-        presenter.init(this as V)
+        viewModel.init(this as V)
     }
 
     override fun <T> observe(liveData: LiveData<T>, observer: Observer<T>) = liveData.observe(this, observer)
