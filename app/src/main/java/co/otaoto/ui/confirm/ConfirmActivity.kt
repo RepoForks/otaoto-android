@@ -10,11 +10,11 @@ import butterknife.OnCheckedChanged
 import butterknife.OnClick
 import co.otaoto.R
 import co.otaoto.ui.base.BaseActivity
-import co.otaoto.ui.bindView
 import co.otaoto.ui.confirm.ConfirmContract.Companion.PARAM_KEY
 import co.otaoto.ui.confirm.ConfirmContract.Companion.PARAM_SECRET
 import co.otaoto.ui.confirm.ConfirmContract.Companion.PARAM_SLUG
 import co.otaoto.ui.create.CreateActivity
+import kotlinx.android.synthetic.main.activity_confirm.*
 import javax.inject.Inject
 
 class ConfirmActivity : BaseActivity<ConfirmViewModel, ConfirmContract.View>(), ConfirmContract.View {
@@ -30,9 +30,9 @@ class ConfirmActivity : BaseActivity<ConfirmViewModel, ConfirmContract.View>(), 
     override lateinit var viewModelFactory: ConfirmViewModel.Factory
     override val viewModelClass get() = ConfirmViewModel::class.java
 
-    internal val rootView: ViewGroup by bindView(R.id.activity_confirm)
-    private val secretTextView: TextView by bindView(R.id.confirm_secret_text)
-    private val linkTextView: TextView by bindView(R.id.confirm_link_text)
+    internal val rootView: ViewGroup inline get() = activity_confirm
+    private val secretTextView: TextView inline get() = confirm_secret_text
+    private val linkTextView: TextView inline get() = confirm_link_text
 
     override val layoutRes: Int get() = R.layout.activity_confirm
 

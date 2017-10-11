@@ -9,8 +9,8 @@ import android.widget.TextView
 import butterknife.OnClick
 import co.otaoto.R
 import co.otaoto.ui.base.BaseActivity
-import co.otaoto.ui.bindView
 import co.otaoto.ui.create.CreateActivity
+import kotlinx.android.synthetic.main.activity_show.*
 import kotlinx.coroutines.experimental.android.UI
 import kotlinx.coroutines.experimental.launch
 import javax.inject.Inject
@@ -21,9 +21,9 @@ class ShowActivity : BaseActivity<ShowViewModel, ShowContract.View>(), ShowContr
     override lateinit var viewModelFactory: ShowViewModel.Factory
     override val viewModelClass get() = ShowViewModel::class.java
 
-    internal val rootView: ViewGroup by bindView(R.id.activity_show)
-    private val secretTextView: TextView by bindView(R.id.show_secret_text)
-    private val revealButton: Button by bindView(R.id.show_reveal_button)
+    internal val rootView: ViewGroup inline get() = activity_show
+    private val secretTextView: TextView inline get() = show_secret_text
+    private val revealButton: Button inline get() = show_reveal_button
 
     override val layoutRes: Int get() = R.layout.activity_show
 

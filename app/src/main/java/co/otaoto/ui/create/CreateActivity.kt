@@ -9,8 +9,8 @@ import android.widget.Toast
 import butterknife.OnClick
 import co.otaoto.R
 import co.otaoto.ui.base.BaseActivity
-import co.otaoto.ui.bindView
 import co.otaoto.ui.confirm.ConfirmActivity
+import kotlinx.android.synthetic.main.activity_create.*
 import kotlinx.coroutines.experimental.android.UI
 import kotlinx.coroutines.experimental.launch
 import javax.inject.Inject
@@ -24,8 +24,8 @@ class CreateActivity : BaseActivity<CreateViewModel, CreateContract.View>(), Cre
     override lateinit var viewModelFactory: CreateViewModel.Factory
     override val viewModelClass get() = CreateViewModel::class.java
 
-    private val inputLayout: TextInputLayout by bindView(R.id.create_input_layout)
-    private val inputTextView: TextView by bindView(R.id.create_input_edittext)
+    private val inputLayout: TextInputLayout inline get() = create_input_layout
+    private val inputTextView: TextView inline get() = create_input_edittext
 
     override val layoutRes: Int get() = R.layout.activity_create
 
