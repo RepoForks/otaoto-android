@@ -8,5 +8,5 @@ import javax.inject.Singleton
 class ApiModule {
     @Singleton
     @Provides
-    fun providesApi(): Api = MockApi()
+    fun providesApi(): Api = TestApi()
 }

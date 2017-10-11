@@ -1,6 +1,6 @@
 package co.otaoto.ui.create
 
-import co.otaoto.api.MockApi
+import co.otaoto.api.TestApi
 import co.otaoto.ui.base.BaseViewModelTest
 import co.otaoto.ui.base.MockView
 import kotlinx.coroutines.experimental.runBlocking
@@ -32,7 +32,7 @@ class CreateViewModelTest : BaseViewModelTest<CreateViewModel, CreateContract.Vi
 
     @Test
     fun submit_moveToConfirm_ifSuccess() = runBlocking {
-        viewModel.submit(MockApi.SECRET)
+        viewModel.submit(TestApi.SECRET)
 
         with(inOrder(view)) {
             verify(view).showLoadingDialog()
@@ -44,7 +44,7 @@ class CreateViewModelTest : BaseViewModelTest<CreateViewModel, CreateContract.Vi
 
     @Test
     fun submit_showError_ifFailure() = runBlocking {
-        viewModel.submit(MockApi.ERROR)
+        viewModel.submit(TestApi.ERROR)
 
         with(inOrder(view)) {
             verify(view).showLoadingDialog()

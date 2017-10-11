@@ -1,14 +1,14 @@
 package co.otaoto.ui.base
 
 import android.arch.core.executor.testing.InstantTaskExecutorRule
-import co.otaoto.api.MockApi
+import co.otaoto.api.TestApi
 import org.junit.Before
 import org.junit.Rule
 import org.mockito.MockitoAnnotations
 
 abstract class BaseViewModelTest<VM : BaseViewModel<V>, V : BaseContract.View> {
     companion object {
-        val API = MockApi()
+        val API = TestApi()
         const val SECRET = "That's my secret, Captain"
         const val SLUG = "three-word-slug"
         const val KEY = "1234567890ABCDEF"

@@ -9,7 +9,7 @@ import android.support.test.espresso.matcher.ViewMatchers.*
 import android.support.test.rule.ActivityTestRule
 import android.support.transition.TransitionManager
 import co.otaoto.R
-import co.otaoto.api.MockApi
+import co.otaoto.api.TestApi
 import co.otaoto.util.OrientationAction.Companion.landscapeRotation
 import co.otaoto.util.OrientationAction.Companion.portraitRotation
 import org.hamcrest.Matchers.not
@@ -39,16 +39,16 @@ class ShowActivityTest {
         revealButton.perform(click())
         TransitionManager.endTransitions(activityTestRule.activity.rootView)
         secretText.check(matches(withEffectiveVisibility(Visibility.VISIBLE)))
-        secretText.check(matches(withText(MockApi.SECRET)))
+        secretText.check(matches(withText(TestApi.SECRET)))
         revealButton.check(matches(not(isEnabled())))
 
         revealButton.perform(landscapeRotation())
         secretText.check(matches(withEffectiveVisibility(Visibility.VISIBLE)))
-        secretText.check(matches(withText(MockApi.SECRET)))
+        secretText.check(matches(withText(TestApi.SECRET)))
         revealButton.check(matches(not(isEnabled())))
         revealButton.perform(portraitRotation())
         secretText.check(matches(withEffectiveVisibility(Visibility.VISIBLE)))
-        secretText.check(matches(withText(MockApi.SECRET)))
+        secretText.check(matches(withText(TestApi.SECRET)))
         revealButton.check(matches(not(isEnabled())))
 
         val anotherButton = onView(withText(R.string.show_create_button))
@@ -60,7 +60,7 @@ class ShowActivityTest {
 
     @Test
     fun smokeTest_gone() {
-        val path = "https://otaoto.co/gate/${MockApi.ERROR}/$KEY"
+        val path = "https://otaoto.co/gate/${TestApi.ERROR}/$KEY"
         activityTestRule.launchActivity(Intent(Intent.ACTION_VIEW, Uri.parse(path)))
 
         val revealButton = onView(withText(R.string.show_reveal))

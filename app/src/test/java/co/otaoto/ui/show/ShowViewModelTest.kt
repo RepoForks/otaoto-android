@@ -1,6 +1,6 @@
 package co.otaoto.ui.show
 
-import co.otaoto.api.MockApi
+import co.otaoto.api.TestApi
 import co.otaoto.ui.base.BaseViewModelTest
 import co.otaoto.ui.base.MockView
 import kotlinx.coroutines.experimental.runBlocking
@@ -76,7 +76,7 @@ class ShowViewModelTest : BaseViewModelTest<ShowViewModel, ShowContract.View>() 
         with(inOrder(view)) {
             verify(view).showLoadingDialog()
             verify(view).hideLoadingDialog()
-            verify(view).showSecret(MockApi.SECRET)
+            verify(view).showSecret(TestApi.SECRET)
             verify(view).renderShow()
             verifyNoMoreInteractions()
         }
@@ -84,7 +84,7 @@ class ShowViewModelTest : BaseViewModelTest<ShowViewModel, ShowContract.View>() 
 
     @Test
     fun clickReveal_showsGone_ifFailure() = runBlocking {
-        val pathSegments = listOf("gate", MockApi.ERROR, KEY)
+        val pathSegments = listOf("gate", TestApi.ERROR, KEY)
         viewModel = ShowViewModel(API, pathSegments)
         viewModel.init(view)
         viewModel.clickReveal()
