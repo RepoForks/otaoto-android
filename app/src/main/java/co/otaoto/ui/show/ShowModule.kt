@@ -5,9 +5,9 @@ import dagger.Module
 import dagger.Provides
 
 @Module
-class ShowModule {
-
+object ShowModule {
     @Provides
     @ActivityScoped
+    @JvmStatic
     fun providePathSegments(activity: ShowActivity): List<String> = activity.intent.data.pathSegments
 }

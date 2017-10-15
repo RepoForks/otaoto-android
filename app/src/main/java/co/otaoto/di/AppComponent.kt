@@ -11,7 +11,7 @@ import javax.inject.Singleton
 @Singleton
 @Component(modules = [ApplicationModule::class, ApiModule::class, ActivityBindingModule::class, AndroidInjectionModule::class])
 interface AppComponent : AndroidInjector<Application> {
-    override fun inject(instance: co.otaoto.Application)
+    override fun inject(instance: Application)
 
     @Component.Builder
     interface Builder {

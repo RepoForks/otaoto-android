@@ -8,10 +8,7 @@ import co.otaoto.ui.base.BaseViewModel
 import javax.inject.Inject
 
 class CreateViewModel(val api: Api) : BaseViewModel<CreateContract.View>(), CreateContract.ViewModel {
-    class Factory @Inject constructor() : BaseViewModel.Factory<CreateViewModel>() {
-        @Inject
-        protected lateinit var api: Api
-
+    class Factory @Inject constructor(private val api: Api) : BaseViewModel.Factory<CreateViewModel>() {
         override fun create(): CreateViewModel = CreateViewModel(api)
     }
 

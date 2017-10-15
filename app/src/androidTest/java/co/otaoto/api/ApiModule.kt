@@ -2,11 +2,10 @@ package co.otaoto.api
 
 import dagger.Module
 import dagger.Provides
-import javax.inject.Singleton
 
 @Module
-class ApiModule {
-    @Singleton
+object ApiModule {
     @Provides
+    @JvmStatic
     fun providesApi(): Api = TestApi()
 }

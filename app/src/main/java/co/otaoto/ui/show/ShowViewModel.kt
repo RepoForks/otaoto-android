@@ -8,13 +8,10 @@ import co.otaoto.ui.base.BaseViewModel
 import javax.inject.Inject
 
 class ShowViewModel(private val api: Api, pathSegments: List<String>) : BaseViewModel<ShowContract.View>(), ShowContract.ViewModel {
-    class Factory @Inject constructor() : BaseViewModel.Factory<ShowViewModel>() {
-        @Inject
-        protected lateinit var api: Api
-
-        @Inject
-        protected lateinit var pathSegments: List<String>
-
+    class Factory @Inject constructor(
+            private val api: Api,
+            private val pathSegments: List<String>
+    ) : BaseViewModel.Factory<ShowViewModel>() {
         override fun create(): ShowViewModel = ShowViewModel(api, pathSegments)
     }
 

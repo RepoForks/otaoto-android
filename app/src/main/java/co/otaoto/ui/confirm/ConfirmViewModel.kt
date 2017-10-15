@@ -9,19 +9,11 @@ import javax.inject.Inject
 import javax.inject.Named
 
 class ConfirmViewModel(private val secret: String, slug: String, key: String) : BaseViewModel<ConfirmContract.View>(), ConfirmContract.ViewModel {
-    class Factory @Inject constructor() : BaseViewModel.Factory<ConfirmViewModel>() {
-        @Inject
-        @field:Named(PARAM_SECRET)
-        protected lateinit var secret: String
-
-        @Inject
-        @field:Named(PARAM_SLUG)
-        protected lateinit var slug: String
-
-        @Inject
-        @field:Named(PARAM_KEY)
-        protected lateinit var key: String
-
+    class Factory @Inject constructor(
+            @Named(PARAM_SECRET) private val secret: String,
+            @Named(PARAM_SLUG) private val slug: String,
+            @Named(PARAM_KEY) private val key: String
+    ) : BaseViewModel.Factory<ConfirmViewModel>() {
         override fun create(): ConfirmViewModel = ConfirmViewModel(secret, slug, key)
     }
 

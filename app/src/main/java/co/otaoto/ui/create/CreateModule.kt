@@ -3,4 +3,4 @@ package co.otaoto.ui.create
 import dagger.Module
 
 @Module
-class CreateModule
+object CreateModule
