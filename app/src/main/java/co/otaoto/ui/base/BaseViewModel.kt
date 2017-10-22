@@ -6,7 +6,7 @@ import android.support.annotation.CallSuper
 abstract class BaseViewModel<V : BaseContract.View> : ViewModel(), BaseContract.ViewModel<V> {
     abstract class Factory<out VM : BaseViewModel<*>> : ViewModelProvider.Factory {
         @Suppress("UNCHECKED_CAST")
-        override fun <T : ViewModel?> create(modelClass: Class<T>?): T = create() as T
+        override fun <T : ViewModel> create(modelClass: Class<T>): T = create() as T
 
         protected abstract fun create(): VM
     }
