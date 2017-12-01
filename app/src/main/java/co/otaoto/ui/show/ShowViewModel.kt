@@ -1,18 +1,20 @@
 package co.otaoto.ui.show
 
 import android.arch.lifecycle.MutableLiveData
-import co.otaoto.api.Api
+import co.otaoto.api.ApiClient
 import co.otaoto.api.ShowError
+import co.otaoto.api.ShowException
 import co.otaoto.api.ShowSuccess
 import co.otaoto.ui.base.BaseViewModel
+import timber.log.Timber
 import javax.inject.Inject
 
-class ShowViewModel(private val api: Api, pathSegments: List<String>) : BaseViewModel<ShowContract.View>(), ShowContract.ViewModel {
+class ShowViewModel(private val apiClient: ApiClient, pathSegments: List<String>) : BaseViewModel<ShowContract.View>(), ShowContract.ViewModel {
     class Factory @Inject constructor(
-            private val api: Api,
+            private val apiClient: ApiClient,
             private val pathSegments: List<String>
     ) : BaseViewModel.Factory<ShowViewModel>() {
-        override fun create(): ShowViewModel = ShowViewModel(api, pathSegments)
+        override fun create(): ShowViewModel = ShowViewModel(apiClient, pathSegments)
     }
 
     private enum class State(val path: String, val render: ShowContract.View.() -> Unit) {
@@ -55,7 +57,7 @@ class ShowViewModel(private val api: Api, pathSegments: List<String>) : BaseView
     override suspend fun clickReveal() {
         if (state.value != State.GATE || slug == null || key == null) return
         loadingDialogVisible.value = true
-        val result = api.show(slug, key)
+        val result = apiClient.show(slug, key)
         loadingDialogVisible.value = false
         return when (result) {
             is ShowSuccess -> {
@@ -63,6 +65,12 @@ class ShowViewModel(private val api: Api, pathSegments: List<String>) : BaseView
                 state.value = State.SHOW
             }
             is ShowError -> {
+                Timber.e("An error occurred on show: %s", result.error)
+                secret.value = null
+                state.value = State.GONE
+            }
+            is ShowException -> {
+                Timber.e(result.exception, "An exception was thrown on show")
                 secret.value = null
                 state.value = State.GONE
             }

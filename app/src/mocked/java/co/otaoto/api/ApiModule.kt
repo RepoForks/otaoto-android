@@ -7,5 +7,5 @@ import dagger.Provides
 object ApiModule {
     @Provides
     @JvmStatic
-    fun providesApi(): Api = MockApi()
+    fun providesApi(): OtaotoApi = MockApi
 }

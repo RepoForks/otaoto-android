@@ -34,7 +34,7 @@ class CreateActivity : BaseActivity<CreateViewModel, CreateContract.View>(), Cre
         finish()
     }
 
-    override fun showError() {
+    override fun showError(exception: Throwable) {
         Toast.makeText(this, getString(R.string.generic_error), Toast.LENGTH_SHORT).show()
     }
 

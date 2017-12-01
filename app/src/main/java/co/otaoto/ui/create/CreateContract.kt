@@ -5,7 +5,7 @@ import co.otaoto.ui.base.BaseContract
 interface CreateContract {
     interface View : BaseContract.View {
         fun moveToConfirmScreen(secret: String, slug: String, key: String)
-        fun showError()
+        fun showError(exception: Throwable)
         fun performPasswordVisibleHack()
     }
 

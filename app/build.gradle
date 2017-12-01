@@ -72,11 +72,16 @@ dependencies {
     testImplementation "android.arch.core:core-testing:$archVersion"
 
     implementation "com.squareup.retrofit2:retrofit:$retrofitVersion"
+    mockedImplementation "com.squareup.retrofit2:retrofit-mock:$retrofitVersion"
+    testImplementation "com.squareup.retrofit2:retrofit-mock:$retrofitVersion"
+    androidTestImplementation "com.squareup.retrofit2:retrofit-mock:$retrofitVersion"
     implementation "com.squareup.retrofit2:converter-moshi:$retrofitVersion"
     implementation 'com.squareup.moshi:moshi:1.5.0'
 
     implementation "com.jakewharton:butterknife:$butterknifeVersion"
     kapt "com.jakewharton:butterknife-compiler:$butterknifeVersion"
+
+    implementation "com.jakewharton.timber:timber:4.6.0"
 
     implementation 'ru.gildor.coroutines:kotlin-coroutines-retrofit:0.8.2'
 

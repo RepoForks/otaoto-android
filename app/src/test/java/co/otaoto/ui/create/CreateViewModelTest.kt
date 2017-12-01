@@ -18,7 +18,7 @@ class CreateViewModelTest : BaseViewModelTest<CreateViewModel, CreateContract.Vi
 
     @Before
     fun setUp() {
-        viewModel = CreateViewModel(API)
+        viewModel = CreateViewModel(API_CALLER)
         viewModel.init(view)
     }
 
@@ -43,13 +43,13 @@ class CreateViewModelTest : BaseViewModelTest<CreateViewModel, CreateContract.Vi
     }
 
     @Test
-    fun submit_showError_ifFailure() = runBlocking {
+    fun submit_showError_ifException() = runBlocking {
         viewModel.submit(TestApi.ERROR)
 
         with(inOrder(view)) {
             verify(view).showLoadingDialog()
             verify(view).hideLoadingDialog()
-            verify(view).showError()
+            verify(view).showError(TestApi.EXCEPTION)
             verifyNoMoreInteractions()
         }
     }

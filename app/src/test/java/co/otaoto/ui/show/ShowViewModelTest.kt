@@ -53,7 +53,7 @@ class ShowViewModelTest : BaseViewModelTest<ShowViewModel, ShowContract.View>() 
     @Test
     fun init_rendersGone_ifPathShort() {
         val pathSegments = listOf("gate")
-        viewModel = ShowViewModel(API, pathSegments)
+        viewModel = ShowViewModel(API_CALLER, pathSegments)
         viewModel.init(view)
 
         verify(view).renderGone()
@@ -62,7 +62,7 @@ class ShowViewModelTest : BaseViewModelTest<ShowViewModel, ShowContract.View>() 
     @Test
     fun init_rendersGone_ifPathLong() {
         val pathSegments = listOf("gate", "foo", "bar", "baz")
-        viewModel = ShowViewModel(API, pathSegments)
+        viewModel = ShowViewModel(API_CALLER, pathSegments)
         viewModel.init(view)
 
         verify(view).renderGone()
@@ -83,9 +83,24 @@ class ShowViewModelTest : BaseViewModelTest<ShowViewModel, ShowContract.View>() 
     }
 
     @Test
-    fun clickReveal_showsGone_ifFailure() = runBlocking {
+    fun clickReveal_showsGone_ifException() = runBlocking {
         val pathSegments = listOf("gate", TestApi.ERROR, KEY)
-        viewModel = ShowViewModel(API, pathSegments)
+        viewModel = ShowViewModel(API_CALLER, pathSegments)
+        viewModel.init(view)
+        viewModel.clickReveal()
+
+        with(inOrder(view)) {
+            verify(view).showLoadingDialog()
+            verify(view).hideLoadingDialog()
+            verify(view).renderGone()
+            verifyNoMoreInteractions()
+        }
+    }
+
+    @Test
+    fun clickReveal_showsGone_ifFailure() = runBlocking {
+        val pathSegments = listOf("gate", SLUG, TestApi.ERROR)
+        viewModel = ShowViewModel(API_CALLER, pathSegments)
         viewModel.init(view)
         viewModel.clickReveal()
 
@@ -107,7 +122,7 @@ class ShowViewModelTest : BaseViewModelTest<ShowViewModel, ShowContract.View>() 
 
     private fun setupDefaultModel(path: String) {
         val pathSegments = listOf(path, SLUG, KEY)
-        viewModel = ShowViewModel(API, pathSegments)
+        viewModel = ShowViewModel(API_CALLER, pathSegments)
         viewModel.init(view)
     }
 }
