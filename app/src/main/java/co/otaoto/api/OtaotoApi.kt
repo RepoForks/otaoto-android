@@ -1,6 +1,7 @@
 package co.otaoto.api
 
-import retrofit2.Call
+import com.jakewharton.retrofit2.adapter.kotlin.coroutines.experimental.CoroutineCallAdapterFactory
+import kotlinx.coroutines.experimental.Deferred
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 import retrofit2.http.Body
@@ -10,15 +11,16 @@ import retrofit2.http.Path
 
 interface OtaotoApi {
     @POST("create")
-    fun create(@Body body: CreateRequest): Call<CreateResponse>
+    fun create(@Body body: CreateRequest): Deferred<CreateResponse>
 
     @GET("show/{slug}/{key}")
-    fun show(@Path("slug") slug: String, @Path("key") key: String): Call<ShowResponse>
+    fun show(@Path("slug") slug: String, @Path("key") key: String): Deferred<ShowResponse>
 }
 
 val retrofit: Retrofit by lazy {
     Retrofit.Builder()
             .baseUrl(BASE_URL)
+            .addCallAdapterFactory(CoroutineCallAdapterFactory())
             .addConverterFactory(MoshiConverterFactory.create())
             .build()
 }

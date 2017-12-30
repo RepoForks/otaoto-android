@@ -1,7 +1,7 @@
 package co.otaoto.api
 
-import retrofit2.Call
-import retrofit2.mock.Calls
+import kotlinx.coroutines.experimental.Deferred
+import kotlinx.coroutines.experimental.async
 import java.io.IOException
 
 object TestApi : OtaotoApi {
@@ -11,19 +11,19 @@ object TestApi : OtaotoApi {
     const val SECRET = "That's my secret, Captain."
     val EXCEPTION = IOException("exception")
 
-    override fun create(body: CreateRequest): Call<CreateResponse> {
-        return if (body.secret.plain_text == ERROR) {
-            Calls.failure(EXCEPTION)
+    override fun create(body: CreateRequest): Deferred<CreateResponse> = async {
+        if (body.secret.plain_text == ERROR) {
+            throw EXCEPTION
         } else {
-            Calls.response(CreateResponse(CreateResponse.Secret(SLUG, "", KEY)))
+            CreateResponse(CreateResponse.Secret(SLUG, "", KEY))
         }
     }
 
-    override fun show(slug: String, key: String): Call<ShowResponse> {
-        return when {
-            slug == ERROR -> Calls.failure(EXCEPTION)
-            key == ERROR -> Calls.response(ShowResponse(errors = ERROR))
-            else -> Calls.response(ShowResponse(plain_text = SECRET))
+    override fun show(slug: String, key: String): Deferred<ShowResponse> = async {
+        when {
+            slug == ERROR -> throw EXCEPTION
+            key == ERROR -> ShowResponse(errors = ERROR)
+            else -> ShowResponse(plain_text = SECRET)
         }
     }
 }

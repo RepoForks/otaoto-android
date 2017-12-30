@@ -43,15 +43,15 @@ android {
 ext {
     archVersion = "1.0.0"
     butterknifeVersion = "8.8.1"
-    constraintLayoutVersion="1.0.2"
+    constraintLayoutVersion = "1.0.2"
     coroutineVersion = "0.21"
-    coroutineRetrofitVersion = "0.9.0"
     daggerVersion = "2.14.1"
     espressoVersion = "3.0.1"
     jUnitVersion = "4.12"
     mockitoVersion = "2.13.0"
     moshiVersion = "1.5.0"
     retrofitVersion = "2.3.0"
+    retrofitCoroutineAdapterVersion = "1.0.0"
     supportVersion = "27.0.2"
     testRunnerVersion = "1.0.1"
     timberVersion = "4.6.0"
@@ -82,6 +82,7 @@ dependencies {
     mockedImplementation "com.squareup.retrofit2:retrofit-mock:$retrofitVersion"
     testImplementation "com.squareup.retrofit2:retrofit-mock:$retrofitVersion"
     androidTestImplementation "com.squareup.retrofit2:retrofit-mock:$retrofitVersion"
+    implementation "com.jakewharton.retrofit:retrofit2-kotlin-coroutines-experimental-adapter:$retrofitCoroutineAdapterVersion"
     implementation "com.squareup.retrofit2:converter-moshi:$retrofitVersion"
     implementation "com.squareup.moshi:moshi:$moshiVersion"
 
@@ -89,8 +90,6 @@ dependencies {
     kapt "com.jakewharton:butterknife-compiler:$butterknifeVersion"
 
     implementation "com.jakewharton.timber:timber:$timberVersion"
-
-    implementation "ru.gildor.coroutines:kotlin-coroutines-retrofit:$coroutineRetrofitVersion"
 
     testImplementation "org.mockito:mockito-core:$mockitoVersion"
     testImplementation "android.arch.core:core-testing:$archVersion"

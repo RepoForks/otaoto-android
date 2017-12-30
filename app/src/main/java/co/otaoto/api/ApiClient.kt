@@ -1,7 +1,6 @@
 package co.otaoto.api
 
 import retrofit2.HttpException
-import ru.gildor.coroutines.retrofit.await
 import javax.inject.Inject
 
 class ApiClient @Inject constructor(val api: OtaotoApi) {
