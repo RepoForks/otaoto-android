@@ -16,9 +16,8 @@ import co.otaoto.ui.confirm.ConfirmContract.Companion.PARAM_SECRET
 import co.otaoto.ui.confirm.ConfirmContract.Companion.PARAM_SLUG
 import co.otaoto.ui.create.CreateActivity
 import kotlinx.android.synthetic.main.activity_confirm.*
-import javax.inject.Inject
 
-class ConfirmActivity : BaseActivity<ConfirmViewModel>(), ConfirmContract.View {
+class ConfirmActivity : BaseActivity<ConfirmContract.ViewModel, ConfirmViewModel.Factory>(), ConfirmContract.View {
     companion object {
         fun newIntent(context: Context, secret: String, slug: String, key: String): Intent =
                 Intent(context, ConfirmActivity::class.java)
@@ -26,10 +25,6 @@ class ConfirmActivity : BaseActivity<ConfirmViewModel>(), ConfirmContract.View {
                         .putExtra(PARAM_SLUG, slug)
                         .putExtra(PARAM_KEY, key)
     }
-
-    @Inject
-    override lateinit var viewModelFactory: ConfirmViewModel.Factory
-    override val viewModelClass get() = ConfirmViewModel::class.java
 
     internal val rootView: ViewGroup inline get() = activity_confirm
     private val secretTextView: TextView inline get() = confirm_secret_text

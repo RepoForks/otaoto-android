@@ -14,8 +14,8 @@ class ConfirmViewModel(secret: String, slug: String, key: String) : BaseViewMode
             @Named(PARAM_SECRET) private val secret: String,
             @Named(PARAM_SLUG) private val slug: String,
             @Named(PARAM_KEY) private val key: String
-    ) : BaseViewModel.Factory<ConfirmViewModel>() {
-        override fun create(): ConfirmViewModel = ConfirmViewModel(secret, slug, key)
+    ) : BaseViewModel.Factory<ConfirmContract.ViewModel>() {
+        override fun create(): ConfirmContract.ViewModel = ConfirmViewModel(secret, slug, key)
     }
 
     private val _secretValue = MutableLiveData<String>()

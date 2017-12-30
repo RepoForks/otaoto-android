@@ -14,13 +14,8 @@ import co.otaoto.ui.create.CreateActivity
 import kotlinx.android.synthetic.main.activity_show.*
 import kotlinx.coroutines.experimental.android.UI
 import kotlinx.coroutines.experimental.launch
-import javax.inject.Inject
 
-class ShowActivity : BaseActivity<ShowViewModel>(), ShowContract.View {
-
-    @Inject
-    override lateinit var viewModelFactory: ShowViewModel.Factory
-    override val viewModelClass get() = ShowViewModel::class.java
+class ShowActivity : BaseActivity<ShowContract.ViewModel, ShowViewModel.Factory>(), ShowContract.View {
 
     internal val rootView: ViewGroup inline get() = activity_show
     private val secretTextView: TextView inline get() = show_secret_text

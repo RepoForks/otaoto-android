@@ -10,8 +10,8 @@ import timber.log.Timber
 import javax.inject.Inject
 
 class CreateViewModel(private val apiClient: ApiClient) : BaseViewModel(), CreateContract.ViewModel {
-    class Factory @Inject constructor(private val apiClient: ApiClient) : BaseViewModel.Factory<CreateViewModel>() {
-        override fun create(): CreateViewModel = CreateViewModel(apiClient)
+    class Factory @Inject constructor(private val apiClient: ApiClient) : BaseViewModel.Factory<CreateContract.ViewModel>() {
+        override fun create(): CreateContract.ViewModel = CreateViewModel(apiClient)
     }
 
     private val _moveToConfirmTrigger = MutableLiveData<CreateContract.SecretData>()

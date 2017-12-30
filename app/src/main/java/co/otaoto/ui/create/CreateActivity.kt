@@ -13,16 +13,11 @@ import co.otaoto.ui.confirm.ConfirmActivity
 import kotlinx.android.synthetic.main.activity_create.*
 import kotlinx.coroutines.experimental.android.UI
 import kotlinx.coroutines.experimental.launch
-import javax.inject.Inject
 
-class CreateActivity : BaseActivity<CreateViewModel>(), CreateContract.View {
+class CreateActivity : BaseActivity<CreateContract.ViewModel, CreateViewModel.Factory>(), CreateContract.View {
     companion object {
         fun newIntent(context: Context) = Intent(context, CreateActivity::class.java)
     }
-
-    @Inject
-    override lateinit var viewModelFactory: CreateViewModel.Factory
-    override val viewModelClass get() = CreateViewModel::class.java
 
     private val inputLayout: TextInputLayout inline get() = create_input_layout
     private val inputTextView: TextView inline get() = create_input_edittext

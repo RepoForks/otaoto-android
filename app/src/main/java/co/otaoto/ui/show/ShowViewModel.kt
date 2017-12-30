@@ -14,8 +14,8 @@ class ShowViewModel(private val apiClient: ApiClient, private val pathSegments: 
     class Factory @Inject constructor(
             private val apiClient: ApiClient,
             private val pathSegments: List<String>
-    ) : BaseViewModel.Factory<ShowViewModel>() {
-        override fun create(): ShowViewModel = ShowViewModel(apiClient, pathSegments)
+    ) : BaseViewModel.Factory<ShowContract.ViewModel>() {
+        override fun create(): ShowContract.ViewModel = ShowViewModel(apiClient, pathSegments)
     }
 
     private val slug: String?
