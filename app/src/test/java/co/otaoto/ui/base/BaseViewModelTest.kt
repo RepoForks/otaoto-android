@@ -6,10 +6,8 @@ import co.otaoto.api.ApiClient
 import co.otaoto.api.TestApi
 import org.junit.Rule
 import org.mockito.Mockito.mock
-import org.mockito.junit.MockitoJUnit
-import org.mockito.junit.MockitoRule
 
-abstract class BaseViewModelTest<VM : BaseViewModel> {
+abstract class BaseViewModelTest<VM : BaseViewModel> : BaseTest() {
     companion object {
         val API_CLIENT = ApiClient(TestApi)
         const val SECRET = TestApi.SECRET
@@ -21,10 +19,6 @@ abstract class BaseViewModelTest<VM : BaseViewModel> {
     @Rule
     @JvmField
     val instantTaskExecutorRule = InstantTaskExecutorRule()
-
-    @Rule
-    @JvmField
-    val mockitoRule: MockitoRule = MockitoJUnit.rule()
 
     protected lateinit var viewModel: VM
 

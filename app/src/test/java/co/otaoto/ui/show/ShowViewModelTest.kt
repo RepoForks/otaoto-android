@@ -11,9 +11,9 @@ import org.mockito.Mockito.*
 class ShowViewModelTest : BaseViewModelTest<ShowViewModel>() {
 
     @Mock
-    lateinit var stateObserver: Observer<ShowContract.State>
+    private lateinit var stateObserver: Observer<ShowContract.State>
     @Mock
-    lateinit var secretObserver: Observer<String>
+    private lateinit var secretObserver: Observer<String>
 
     @Test
     fun init_rendersGate_ifPathGate() {
