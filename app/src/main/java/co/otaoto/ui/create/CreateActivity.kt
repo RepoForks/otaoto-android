@@ -15,7 +15,7 @@ import kotlinx.coroutines.experimental.android.UI
 import kotlinx.coroutines.experimental.launch
 import javax.inject.Inject
 
-class CreateActivity : BaseActivity<CreateViewModel, CreateContract.View>(), CreateContract.View {
+class CreateActivity : BaseActivity<CreateViewModel>(), CreateContract.View {
     companion object {
         fun newIntent(context: Context) = Intent(context, CreateActivity::class.java)
     }
@@ -29,18 +29,28 @@ class CreateActivity : BaseActivity<CreateViewModel, CreateContract.View>(), Cre
 
     override val layoutRes: Int get() = R.layout.activity_create
 
-    override fun moveToConfirmScreen(secret: String, slug: String, key: String) {
+    override fun onResume() {
+        super.onResume()
+        viewModel.run {
+            moveToConfirmTrigger.observeNonNull { moveToConfirmScreen(it.secret, it.slug, it.key) }
+            errorTrigger.observeNonNull { showError(it) }
+            passwordVisibleHackTrigger.observeNonNull { performPasswordVisibleHack() }
+        }
+    }
+
+    private fun moveToConfirmScreen(secret: String, slug: String, key: String) {
         startActivity(ConfirmActivity.newIntent(this, secret, slug, key))
         finish()
     }
 
-    override fun showError(exception: Throwable) {
+    private fun showError(exception: Throwable) {
         Toast.makeText(this, getString(R.string.generic_error), Toast.LENGTH_SHORT).show()
     }
 
-    override fun performPasswordVisibleHack() {
+    private fun performPasswordVisibleHack() {
         // h4x! We want to start in visible password mode and there doesn't seem to be a default to do this.
         inputLayout.post { inputLayout.findViewById<View>(R.id.text_input_password_toggle).callOnClick() }
+        viewModel.reportPasswordVisibleHackComplete()
     }
 
     @OnClick(R.id.create_submit_button)

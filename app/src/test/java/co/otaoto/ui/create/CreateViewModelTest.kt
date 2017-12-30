@@ -2,55 +2,72 @@ package co.otaoto.ui.create
 
 import co.otaoto.api.TestApi
 import co.otaoto.ui.base.BaseViewModelTest
-import co.otaoto.ui.base.MockView
 import kotlinx.coroutines.experimental.runBlocking
 import org.junit.Before
 import org.junit.Test
-import org.mockito.ArgumentMatchers.anyString
 import org.mockito.Mockito.*
-import org.mockito.Spy
 
-class CreateViewModelTest : BaseViewModelTest<CreateViewModel, CreateContract.View>() {
-    abstract class MockCreateView : MockView(), CreateContract.View
-
-    @Spy
-    override lateinit var view: MockCreateView
+class CreateViewModelTest : BaseViewModelTest<CreateViewModel>() {
 
     @Before
     fun setUp() {
-        viewModel = CreateViewModel(API_CALLER)
-        viewModel.init(view)
+        viewModel = CreateViewModel(API_CLIENT)
     }
 
     @Test
-    fun init_performPasswordVisibleHack_onlyFirstTime() {
-        viewModel.init(view)
-        viewModel.init(view)
+    fun performPasswordVisibleHack_nullAfterComplete() {
+        val testObserver = testObserver<Unit>()
+        viewModel.passwordVisibleHackTrigger.observeForever(testObserver)
 
-        verify(view, times(1)).performPasswordVisibleHack()
+        verify(testObserver).onChanged(Unit)
+
+        viewModel.reportPasswordVisibleHackComplete()
+        verify(testObserver).onChanged(null)
+
+        verifyNoMoreInteractions(testObserver)
     }
 
     @Test
     fun submit_moveToConfirm_ifSuccess() = runBlocking {
-        viewModel.submit(TestApi.SECRET)
+        val moveObserver = testObserver<CreateContract.SecretData>()
+        val errorObserver = testObserver<Throwable>()
+        val loadingObserver = testObserver<Boolean>()
 
-        with(inOrder(view)) {
-            verify(view).showLoadingDialog()
-            verify(view).hideLoadingDialog()
-            verify(view).moveToConfirmScreen(anyString(), anyString(), anyString())
-            verifyNoMoreInteractions()
+        with(viewModel) {
+            moveToConfirmTrigger.observeForever(moveObserver)
+            errorTrigger.observeForever(errorObserver)
+            loadingDialogVisible.observeForever(loadingObserver)
+            submit(TestApi.SECRET)
+        }
+
+        with(inOrder(moveObserver, errorObserver, loadingObserver)) {
+            verify(loadingObserver).onChanged(true)
+            verify(moveObserver).onChanged(notNull())
+            verifyNoMoreInteractions(moveObserver)
+            verifyZeroInteractions(errorObserver)
+            verify(loadingObserver).onChanged(false)
         }
     }
 
     @Test
     fun submit_showError_ifException() = runBlocking {
-        viewModel.submit(TestApi.ERROR)
+        val moveObserver = testObserver<CreateContract.SecretData>()
+        val errorObserver = testObserver<Throwable>()
+        val loadingObserver = testObserver<Boolean>()
 
-        with(inOrder(view)) {
-            verify(view).showLoadingDialog()
-            verify(view).hideLoadingDialog()
-            verify(view).showError(TestApi.EXCEPTION)
-            verifyNoMoreInteractions()
+        with(viewModel) {
+            moveToConfirmTrigger.observeForever(moveObserver)
+            errorTrigger.observeForever(errorObserver)
+            loadingDialogVisible.observeForever(loadingObserver)
+            submit(TestApi.ERROR)
+        }
+
+        with(inOrder(moveObserver, errorObserver, loadingObserver)) {
+            verify(loadingObserver).onChanged(true)
+            verifyZeroInteractions(moveObserver)
+            verify(errorObserver).onChanged(notNull())
+            verifyNoMoreInteractions(errorObserver)
+            verify(loadingObserver).onChanged(false)
         }
     }
 }

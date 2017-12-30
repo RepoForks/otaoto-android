@@ -1,83 +1,85 @@
 package co.otaoto.ui.show
 
+import android.arch.lifecycle.Observer
 import co.otaoto.api.TestApi
 import co.otaoto.ui.base.BaseViewModelTest
-import co.otaoto.ui.base.MockView
 import kotlinx.coroutines.experimental.runBlocking
-import org.junit.Before
 import org.junit.Test
-import org.mockito.Mockito.inOrder
-import org.mockito.Mockito.verify
-import org.mockito.MockitoAnnotations
-import org.mockito.Spy
+import org.mockito.Mock
+import org.mockito.Mockito.*
 
-class ShowViewModelTest : BaseViewModelTest<ShowViewModel, ShowContract.View>() {
-    abstract class MockShowView : MockView(), ShowContract.View
+class ShowViewModelTest : BaseViewModelTest<ShowViewModel>() {
 
-    @Spy
-    override lateinit var view: MockShowView
-
-    @Before
-    fun setUp() {
-        MockitoAnnotations.initMocks(this)
-    }
+    @Mock
+    lateinit var stateObserver: Observer<ShowContract.State>
+    @Mock
+    lateinit var secretObserver: Observer<String>
 
     @Test
     fun init_rendersGate_ifPathGate() {
         setupDefaultModel("gate")
 
-        verify(view).renderGate()
+        verify(stateObserver).onChanged(ShowContract.State.GATE)
+        verifyZeroInteractions(secretObserver)
     }
 
     @Test
     fun init_rendersGate_ifPathShow() {
         setupDefaultModel("show")
 
-        verify(view).renderGate()
+        verify(stateObserver).onChanged(ShowContract.State.GATE)
+        verifyZeroInteractions(secretObserver)
     }
 
     @Test
     fun init_rendersGone_ifPathGone() {
         setupDefaultModel("gone")
 
-        verify(view).renderGone()
+        verify(stateObserver).onChanged(ShowContract.State.GONE)
+        verifyZeroInteractions(secretObserver)
     }
 
     @Test
     fun init_rendersGone_ifPathArbitrary() {
         setupDefaultModel("lol")
 
-        verify(view).renderGone()
+        verify(stateObserver).onChanged(ShowContract.State.GONE)
+        verifyZeroInteractions(secretObserver)
     }
 
     @Test
     fun init_rendersGone_ifPathShort() {
         val pathSegments = listOf("gate")
-        viewModel = ShowViewModel(API_CALLER, pathSegments)
-        viewModel.init(view)
+        viewModel = ShowViewModel(API_CLIENT, pathSegments)
+        setupObservers()
 
-        verify(view).renderGone()
+        verify(stateObserver).onChanged(ShowContract.State.GONE)
+        verifyZeroInteractions(secretObserver)
     }
 
     @Test
     fun init_rendersGone_ifPathLong() {
         val pathSegments = listOf("gate", "foo", "bar", "baz")
-        viewModel = ShowViewModel(API_CALLER, pathSegments)
-        viewModel.init(view)
+        viewModel = ShowViewModel(API_CLIENT, pathSegments)
+        setupObservers()
 
-        verify(view).renderGone()
+        verify(stateObserver).onChanged(ShowContract.State.GONE)
+        verifyZeroInteractions(secretObserver)
     }
 
     @Test
     fun clickReveal_showsSecret_ifSuccess() = runBlocking {
         setupDefaultModel("gate")
+        val loadingObserver = testObserver<Boolean>()
+        viewModel.loadingDialogVisible.observeForever(loadingObserver)
+
         viewModel.clickReveal()
 
-        with(inOrder(view)) {
-            verify(view).showLoadingDialog()
-            verify(view).hideLoadingDialog()
-            verify(view).showSecret(TestApi.SECRET)
-            verify(view).renderShow()
+        with(inOrder(secretObserver, stateObserver, loadingObserver)) {
+            verify(loadingObserver).onChanged(true)
+            verify(secretObserver).onChanged(SECRET)
+            verify(stateObserver).onChanged(ShowContract.State.SHOW)
+            verify(loadingObserver).onChanged(false)
             verifyNoMoreInteractions()
         }
     }
@@ -85,14 +87,18 @@ class ShowViewModelTest : BaseViewModelTest<ShowViewModel, ShowContract.View>() 
     @Test
     fun clickReveal_showsGone_ifException() = runBlocking {
         val pathSegments = listOf("gate", TestApi.ERROR, KEY)
-        viewModel = ShowViewModel(API_CALLER, pathSegments)
-        viewModel.init(view)
+        viewModel = ShowViewModel(API_CLIENT, pathSegments)
+        setupObservers()
+        val loadingObserver = testObserver<Boolean>()
+        viewModel.loadingDialogVisible.observeForever(loadingObserver)
+
         viewModel.clickReveal()
 
-        with(inOrder(view)) {
-            verify(view).showLoadingDialog()
-            verify(view).hideLoadingDialog()
-            verify(view).renderGone()
+        with(inOrder(secretObserver, stateObserver, loadingObserver)) {
+            verify(loadingObserver).onChanged(true)
+            verify(secretObserver, never()).onChanged(notNull())
+            verify(stateObserver).onChanged(ShowContract.State.GONE)
+            verify(loadingObserver).onChanged(false)
             verifyNoMoreInteractions()
         }
     }
@@ -100,29 +106,43 @@ class ShowViewModelTest : BaseViewModelTest<ShowViewModel, ShowContract.View>() 
     @Test
     fun clickReveal_showsGone_ifFailure() = runBlocking {
         val pathSegments = listOf("gate", SLUG, TestApi.ERROR)
-        viewModel = ShowViewModel(API_CALLER, pathSegments)
-        viewModel.init(view)
+        viewModel = ShowViewModel(API_CLIENT, pathSegments)
+        setupObservers()
+        val loadingObserver = testObserver<Boolean>()
+        viewModel.loadingDialogVisible.observeForever(loadingObserver)
+
         viewModel.clickReveal()
 
-        with(inOrder(view)) {
-            verify(view).showLoadingDialog()
-            verify(view).hideLoadingDialog()
-            verify(view).renderGone()
+        with(inOrder(secretObserver, stateObserver, loadingObserver)) {
+            verify(loadingObserver).onChanged(true)
+            verify(secretObserver, never()).onChanged(notNull())
+            verify(stateObserver).onChanged(ShowContract.State.GONE)
+            verify(loadingObserver).onChanged(false)
             verifyNoMoreInteractions()
         }
     }
 
     @Test
     fun clickAnother_movesToSecret() {
+        val observer = testObserver<Unit>()
         setupDefaultModel("gate")
+        viewModel.moveToCreateTrigger.observeForever(observer)
+
         viewModel.clickCreateAnother()
 
-        verify(view).moveToCreateScreen()
+        verify(observer).onChanged(Unit)
     }
 
     private fun setupDefaultModel(path: String) {
         val pathSegments = listOf(path, SLUG, KEY)
-        viewModel = ShowViewModel(API_CALLER, pathSegments)
-        viewModel.init(view)
+        viewModel = ShowViewModel(API_CLIENT, pathSegments)
+        setupObservers()
+    }
+
+    private fun setupObservers() {
+        stateObserver = testObserver()
+        secretObserver = testObserver()
+        viewModel.state.observeForever(stateObserver)
+        viewModel.secret.observeForever(secretObserver)
     }
 }

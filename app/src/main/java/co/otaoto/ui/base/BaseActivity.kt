@@ -11,7 +11,7 @@ import android.widget.ProgressBar
 import butterknife.ButterKnife
 import dagger.android.AndroidInjection
 
-abstract class BaseActivity<VM : BaseViewModel<V>, V : BaseContract.View> : AppCompatActivity(), BaseContract.View {
+abstract class BaseActivity<VM : BaseViewModel> : AppCompatActivity(), BaseContract.View {
     protected abstract val viewModelFactory: BaseViewModel.Factory<VM>
     protected abstract val viewModelClass: Class<VM>
     protected abstract val layoutRes: Int
@@ -26,13 +26,19 @@ abstract class BaseActivity<VM : BaseViewModel<V>, V : BaseContract.View> : AppC
         super.onCreate(savedInstanceState)
         setContentView(layoutRes)
         ButterKnife.bind(this)
-        @Suppress("UNCHECKED_CAST")
-        viewModel.init(this as V)
+
+        viewModel.loadingDialogVisible.observe { if (it == true) showLoadingDialog() else hideLoadingDialog() }
     }
 
-    override fun <T> observe(liveData: LiveData<T>, observer: Observer<T>) = liveData.observe(this, observer)
+    override fun <T> LiveData<T>.observe(observer: (T?) -> Unit) {
+        observe(this@BaseActivity, Observer { observer(it) })
+    }
 
-    override fun showLoadingDialog() {
+    override fun <T> LiveData<T>.observeNonNull(observer: (T) -> Unit) {
+        observe(this@BaseActivity, Observer { it?.let { observer(it) } })
+    }
+
+    private fun showLoadingDialog() {
         loadingDialog?.let { return }
         val dialog = Dialog(this).apply {
             setContentView(ProgressBar(this@BaseActivity))
@@ -41,7 +47,7 @@ abstract class BaseActivity<VM : BaseViewModel<V>, V : BaseContract.View> : AppC
         loadingDialog = dialog
     }
 
-    override fun hideLoadingDialog() {
+    private fun hideLoadingDialog() {
         loadingDialog?.dismiss()
         loadingDialog = null
     }

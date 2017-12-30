@@ -1,5 +1,6 @@
 package co.otaoto.ui.confirm
 
+import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.MutableLiveData
 import co.otaoto.ui.base.BaseViewModel
 import co.otaoto.ui.confirm.ConfirmContract.Companion.PARAM_KEY
@@ -8,7 +9,7 @@ import co.otaoto.ui.confirm.ConfirmContract.Companion.PARAM_SLUG
 import javax.inject.Inject
 import javax.inject.Named
 
-class ConfirmViewModel(private val secret: String, slug: String, key: String) : BaseViewModel<ConfirmContract.View>(), ConfirmContract.ViewModel {
+class ConfirmViewModel(secret: String, slug: String, key: String) : BaseViewModel(), ConfirmContract.ViewModel {
     class Factory @Inject constructor(
             @Named(PARAM_SECRET) private val secret: String,
             @Named(PARAM_SLUG) private val slug: String,
@@ -17,41 +18,37 @@ class ConfirmViewModel(private val secret: String, slug: String, key: String) : 
         override fun create(): ConfirmViewModel = ConfirmViewModel(secret, slug, key)
     }
 
-    private val url: String = "https://otaoto.co/gate/$slug/$key"
+    private val _secretValue = MutableLiveData<String>()
+    override val secretValue: LiveData<String>
+        get() = _secretValue
+    private val _url = MutableLiveData<String>()
+    override val url: LiveData<String>
+        get() = _url
+    private val _secretVisible = MutableLiveData<Boolean>()
+    override val secretVisible: LiveData<Boolean>
+        get() = _secretVisible
+    private val _shareTrigger = MutableLiveData<Unit>()
+    override val shareTrigger: LiveData<Unit>
+        get() = _shareTrigger
+    private val _moveToCreateTrigger = MutableLiveData<Unit>()
+    override val moveToCreateTrigger: LiveData<Unit>
+        get() = _moveToCreateTrigger
 
-    private val secretVisible = MutableLiveData<Boolean>()
-    private val shareTrigger = MutableLiveData<Unit>()
-    private val moveToCreateTrigger = MutableLiveData<Unit>()
-
-    override fun init(view: ConfirmContract.View) {
-        super.init(view)
-        view.setLinkUrl(url)
-        view.observe(secretVisible) { visible: Boolean? ->
-            if (visible == true) {
-                setSecretText(secret)
-                showSecret()
-            } else {
-                hideSecret()
-                setSecretText("")
-            }
-        }
-        view.observe(shareTrigger) {
-            shareUrl(url)
-        }
-        view.observe(moveToCreateTrigger) {
-            moveToCreateScreen()
-        }
+    init {
+        _url.value = "https://otaoto.co/gate/$slug/$key"
+        _secretValue.value = secret
+        _secretVisible.value = false
     }
 
     override fun setSecretVisible(visible: Boolean) {
-        secretVisible.value = visible
+        _secretVisible.value = visible
     }
 
     override fun clickLink() {
-        shareTrigger.value = Unit
+        _shareTrigger.value = Unit
     }
 
     override fun clickCreateAnother() {
-        moveToCreateTrigger.value = Unit
+        _moveToCreateTrigger.value = Unit
     }
 }

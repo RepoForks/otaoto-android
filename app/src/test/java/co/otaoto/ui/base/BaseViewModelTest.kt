@@ -1,31 +1,33 @@
 package co.otaoto.ui.base
 
 import android.arch.core.executor.testing.InstantTaskExecutorRule
+import android.arch.lifecycle.Observer
 import co.otaoto.api.ApiClient
 import co.otaoto.api.TestApi
-import org.junit.Before
 import org.junit.Rule
-import org.mockito.MockitoAnnotations
+import org.mockito.Mockito.mock
+import org.mockito.junit.MockitoJUnit
+import org.mockito.junit.MockitoRule
 
-abstract class BaseViewModelTest<VM : BaseViewModel<V>, V : BaseContract.View> {
+abstract class BaseViewModelTest<VM : BaseViewModel> {
     companion object {
-        val API_CALLER = ApiClient(TestApi)
-        const val SECRET = "That's my secret, Captain"
-        const val SLUG = "three-word-slug"
-        const val KEY = "1234567890ABCDEF"
+        val API_CLIENT = ApiClient(TestApi)
+        const val SECRET = TestApi.SECRET
+        const val SLUG = TestApi.SLUG
+        const val KEY = TestApi.KEY
         const val URL = "https://otaoto.co/gate/$SLUG/$KEY"
     }
 
     @Rule
     @JvmField
-    val rule = InstantTaskExecutorRule()
+    val instantTaskExecutorRule = InstantTaskExecutorRule()
+
+    @Rule
+    @JvmField
+    val mockitoRule: MockitoRule = MockitoJUnit.rule()
 
     protected lateinit var viewModel: VM
 
-    protected abstract val view: V
-
-    @Before
-    fun baseSetUp() {
-        MockitoAnnotations.initMocks(this)
-    }
+    @Suppress("UNCHECKED_CAST")
+    protected fun <T> testObserver(): Observer<T> = mock(Observer::class.java) as Observer<T>
 }

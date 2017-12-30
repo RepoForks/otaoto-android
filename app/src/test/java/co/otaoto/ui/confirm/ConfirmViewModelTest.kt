@@ -1,56 +1,57 @@
 package co.otaoto.ui.confirm
 
 import co.otaoto.ui.base.BaseViewModelTest
-import co.otaoto.ui.base.MockView
+import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
-import org.mockito.Mockito.verify
-import org.mockito.Spy
+import org.mockito.Mockito.*
 
-class ConfirmViewModelTest : BaseViewModelTest<ConfirmViewModel, ConfirmContract.View>() {
-    abstract class MockConfirmView : MockView(), ConfirmContract.View
-
-    @Spy
-    override lateinit var view: MockConfirmView
+class ConfirmViewModelTest : BaseViewModelTest<ConfirmViewModel>() {
 
     @Before
     fun setUp() {
         viewModel = ConfirmViewModel(SECRET, SLUG, KEY)
-        viewModel.init(view)
     }
 
     @Test
-    fun init_setsUrl() {
-        verify(view).setLinkUrl(URL)
+    fun initialState() {
+        assertEquals(URL, viewModel.url.value)
+        assertEquals(false, viewModel.secretVisible.value)
+        assertEquals(SECRET, viewModel.secretValue.value)
     }
 
     @Test
-    fun setSecretVisible_showsSecret_ifTrue() {
+    fun setSecretVisible() {
+        val observer = testObserver<Boolean>()
+        val inOrder = inOrder(observer)
+
+        viewModel.secretVisible.observeForever(observer)
+        inOrder.verify(observer, never()).onChanged(true)
+
         viewModel.setSecretVisible(true)
+        inOrder.verify(observer).onChanged(true)
 
-        verify(view).showSecret()
-        verify(view).setSecretText(SECRET)
-    }
-
-    @Test
-    fun setSecretVisible_hidesSecret_ifFalse() {
         viewModel.setSecretVisible(false)
-
-        verify(view).hideSecret()
-        verify(view).setSecretText("")
+        inOrder.verify(observer).onChanged(false)
     }
 
     @Test
     fun clickLink_sharesUrl() {
-        viewModel.clickLink()
+        val observer = testObserver<Unit>()
+        viewModel.shareTrigger.observeForever(observer)
+        verifyZeroInteractions(observer)
 
-        verify(view).shareUrl(URL)
+        viewModel.clickLink()
+        verify(observer).onChanged(Unit)
     }
 
     @Test
     fun clickCreateAnother_movesToCreate() {
-        viewModel.clickCreateAnother()
+        val observer = testObserver<Unit>()
+        viewModel.moveToCreateTrigger.observeForever(observer)
+        verifyZeroInteractions(observer)
 
-        verify(view).moveToCreateScreen()
+        viewModel.clickCreateAnother()
+        verify(observer).onChanged(Unit)
     }
 }

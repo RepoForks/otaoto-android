@@ -1,16 +1,15 @@
 package co.otaoto.ui.base
 
 import android.arch.lifecycle.LiveData
-import android.arch.lifecycle.Observer
 
 interface BaseContract {
     interface View {
-        fun <T> observe(liveData: LiveData<T>, observer: Observer<T>)
-        fun showLoadingDialog()
-        fun hideLoadingDialog()
+        fun <T> LiveData<T>.observe(observer: (T?) -> Unit)
+        fun <T> LiveData<T>.observeNonNull(observer: (T) -> Unit)
     }
 
-    interface ViewModel<in V : View> {
-        fun init(view: V)
+    interface ViewModel {
+        val loadingDialogVisible: LiveData<Boolean>
+        suspend fun withLoadingDialog(block: suspend () -> Unit)
     }
 }

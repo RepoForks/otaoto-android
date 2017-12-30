@@ -1,15 +1,18 @@
 package co.otaoto.ui.create
 
+import android.arch.lifecycle.LiveData
 import co.otaoto.ui.base.BaseContract
 
 interface CreateContract {
-    interface View : BaseContract.View {
-        fun moveToConfirmScreen(secret: String, slug: String, key: String)
-        fun showError(exception: Throwable)
-        fun performPasswordVisibleHack()
+    interface View : BaseContract.View
+
+    interface ViewModel : BaseContract.ViewModel {
+        suspend fun submit(secret: String)
+        fun reportPasswordVisibleHackComplete()
+        val moveToConfirmTrigger: LiveData<SecretData>
+        val errorTrigger: LiveData<Throwable>
+        val passwordVisibleHackTrigger: LiveData<Unit>
     }
 
-    interface ViewModel : BaseContract.ViewModel<View> {
-        suspend fun submit(secret: String)
-    }
+    data class SecretData(val secret: String, val slug: String, val key: String)
 }

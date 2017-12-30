@@ -2,6 +2,7 @@ package co.otaoto.ui.confirm
 
 import android.content.Context
 import android.content.Intent
+import android.os.Bundle
 import android.support.transition.TransitionManager
 import android.view.View
 import android.view.ViewGroup
@@ -17,7 +18,7 @@ import co.otaoto.ui.create.CreateActivity
 import kotlinx.android.synthetic.main.activity_confirm.*
 import javax.inject.Inject
 
-class ConfirmActivity : BaseActivity<ConfirmViewModel, ConfirmContract.View>(), ConfirmContract.View {
+class ConfirmActivity : BaseActivity<ConfirmViewModel>(), ConfirmContract.View {
     companion object {
         fun newIntent(context: Context, secret: String, slug: String, key: String): Intent =
                 Intent(context, ConfirmActivity::class.java)
@@ -36,9 +37,34 @@ class ConfirmActivity : BaseActivity<ConfirmViewModel, ConfirmContract.View>(), 
 
     override val layoutRes: Int get() = R.layout.activity_confirm
 
-    override fun showSecret() = animateSecretVisibility(View.VISIBLE)
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
 
-    override fun hideSecret() = animateSecretVisibility(View.GONE)
+        viewModel.run {
+            url.observeNonNull { setLinkUrl(it) }
+            secretVisible.observe { visible ->
+                val secret = secretValue.value ?: ""
+                if (visible == true) {
+                    setSecretText(secret)
+                    showSecret()
+                } else {
+                    hideSecret()
+                    setSecretText("")
+                }
+
+            }
+            shareTrigger.observeNonNull {
+                url.value?.let { shareUrl(it) }
+            }
+            moveToCreateTrigger.observeNonNull {
+                moveToCreateScreen()
+            }
+        }
+    }
+
+    private fun showSecret() = animateSecretVisibility(View.VISIBLE)
+
+    private fun hideSecret() = animateSecretVisibility(View.GONE)
 
     private fun animateSecretVisibility(visibility: Int) {
         secretTextView.post {
@@ -47,15 +73,15 @@ class ConfirmActivity : BaseActivity<ConfirmViewModel, ConfirmContract.View>(), 
         }
     }
 
-    override fun setSecretText(text: String) {
+    private fun setSecretText(text: String) {
         secretTextView.text = text
     }
 
-    override fun setLinkUrl(url: String) {
+    private fun setLinkUrl(url: String) {
         linkTextView.text = url
     }
 
-    override fun shareUrl(url: String) {
+    private fun shareUrl(url: String) {
         val intent = Intent(Intent.ACTION_SEND)
                 .setType("text/*")
                 .putExtra(Intent.EXTRA_TEXT, url)
@@ -63,7 +89,7 @@ class ConfirmActivity : BaseActivity<ConfirmViewModel, ConfirmContract.View>(), 
         startActivity(chooser)
     }
 
-    override fun moveToCreateScreen() {
+    private fun moveToCreateScreen() {
         startActivity(CreateActivity.newIntent(this))
         finish()
     }

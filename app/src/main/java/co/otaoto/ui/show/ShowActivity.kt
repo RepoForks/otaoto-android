@@ -1,6 +1,7 @@
 package co.otaoto.ui.show
 
 import android.content.Intent
+import android.os.Bundle
 import android.support.transition.TransitionManager
 import android.view.View
 import android.view.ViewGroup
@@ -15,7 +16,7 @@ import kotlinx.coroutines.experimental.android.UI
 import kotlinx.coroutines.experimental.launch
 import javax.inject.Inject
 
-class ShowActivity : BaseActivity<ShowViewModel, ShowContract.View>(), ShowContract.View {
+class ShowActivity : BaseActivity<ShowViewModel>(), ShowContract.View {
 
     @Inject
     override lateinit var viewModelFactory: ShowViewModel.Factory
@@ -26,6 +27,15 @@ class ShowActivity : BaseActivity<ShowViewModel, ShowContract.View>(), ShowContr
     private val revealButton: Button inline get() = show_reveal_button
 
     override val layoutRes: Int get() = R.layout.activity_show
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        viewModel.run {
+            state.observeNonNull { it.render(this@ShowActivity) }
+            secret.observeNonNull { showSecret(it) }
+            moveToCreateTrigger.observeNonNull { moveToCreateScreen() }
+        }
+    }
 
     override fun renderGate() {
         TransitionManager.beginDelayedTransition(rootView)
@@ -47,11 +57,11 @@ class ShowActivity : BaseActivity<ShowViewModel, ShowContract.View>(), ShowContr
         secretTextView.setText(R.string.show_gone)
     }
 
-    override fun showSecret(secret: String) {
+    private fun showSecret(secret: String) {
         secretTextView.text = secret
     }
 
-    override fun moveToCreateScreen() {
+    private fun moveToCreateScreen() {
         startActivity(Intent(this, CreateActivity::class.java))
         finish()
     }
