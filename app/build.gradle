@@ -5,7 +5,7 @@ apply plugin: 'kotlin-android-extensions'
 
 android {
     compileSdkVersion 27
-    buildToolsVersion "27.0.1"
+    buildToolsVersion "27.0.3"
     defaultConfig {
         applicationId "co.otaoto"
         minSdkVersion 15
@@ -43,16 +43,23 @@ android {
 ext {
     archVersion = "1.0.0"
     butterknifeVersion = "8.8.1"
-    coroutineVersion = "0.19.3"
-    daggerVersion = "2.13"
+    constraintLayoutVersion="1.0.2"
+    coroutineVersion = "0.21"
+    coroutineRetrofitVersion = "0.9.0"
+    daggerVersion = "2.14.1"
     espressoVersion = "3.0.1"
+    jUnitVersion = "4.12"
+    mockitoVersion = "2.13.0"
+    moshiVersion = "1.5.0"
     retrofitVersion = "2.3.0"
     supportVersion = "27.0.2"
+    testRunnerVersion = "1.0.1"
+    timberVersion = "4.6.0"
 }
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlinVersion"
 
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutineVersion"
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutineVersion"
@@ -65,7 +72,7 @@ dependencies {
     implementation "com.android.support:appcompat-v7:$supportVersion"
     implementation "com.android.support:design:$supportVersion"
     implementation "com.android.support:recyclerview-v7:$supportVersion"
-    implementation "com.android.support.constraint:constraint-layout:1.0.2"
+    implementation "com.android.support.constraint:constraint-layout:$constraintLayoutVersion"
 
     implementation "android.arch.lifecycle:extensions:$archVersion"
     kapt "android.arch.lifecycle:compiler:$archVersion"
@@ -76,23 +83,23 @@ dependencies {
     testImplementation "com.squareup.retrofit2:retrofit-mock:$retrofitVersion"
     androidTestImplementation "com.squareup.retrofit2:retrofit-mock:$retrofitVersion"
     implementation "com.squareup.retrofit2:converter-moshi:$retrofitVersion"
-    implementation 'com.squareup.moshi:moshi:1.5.0'
+    implementation "com.squareup.moshi:moshi:$moshiVersion"
 
     implementation "com.jakewharton:butterknife:$butterknifeVersion"
     kapt "com.jakewharton:butterknife-compiler:$butterknifeVersion"
 
-    implementation "com.jakewharton.timber:timber:4.6.0"
+    implementation "com.jakewharton.timber:timber:$timberVersion"
 
-    implementation 'ru.gildor.coroutines:kotlin-coroutines-retrofit:0.8.2'
+    implementation "ru.gildor.coroutines:kotlin-coroutines-retrofit:$coroutineRetrofitVersion"
 
-    testImplementation 'org.mockito:mockito-core:2.12.0'
+    testImplementation "org.mockito:mockito-core:$mockitoVersion"
     testImplementation "android.arch.core:core-testing:$archVersion"
-    testImplementation "junit:junit:4.12"
+    testImplementation "junit:junit:$jUnitVersion"
 
     androidTestImplementation "com.android.support.test.espresso:espresso-core:$espressoVersion"
     androidTestImplementation "com.android.support.test.espresso:espresso-contrib:$espressoVersion"
     androidTestImplementation "com.android.support.test.espresso:espresso-intents:$espressoVersion"
-    androidTestImplementation "com.android.support.test:runner:1.0.1"
+    androidTestImplementation "com.android.support.test:runner:$testRunnerVersion"
     androidTestImplementation "android.arch.core:core-testing:$archVersion"
 }
 
